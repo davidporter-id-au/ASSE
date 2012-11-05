@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=double\ getPrice()
+comment0.text=\n\ getPrice\n\ Returns\ a\ validated\ current\ price\ of\ electricity.\ \n\ Returns\ negative\ 1\ if\ invalid\ signature.\ \n
+comment1.params=
+comment1.target=SmartMeter.UsageBlock[]\ forecast()
+comment1.text=\n\ forecast\n\ Creates\ an\ array\ of\ UsageBlocks\ as\ a\ simple\ means\ to\ forecast\ future\ useage\n\ and\ returns\ them.\ Intended\ to\ represent\ the\ forecasted\ electricity\ usage\ over\ \n\ periods\ by\ applications\ as\ they\ register\ themselves\ with\ the\ meter.\ \n
+numComments=2

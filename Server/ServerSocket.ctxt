@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=
+comment0.target=ServerSocket()
+comment0.text=\n\ Constructor\n\ sets\ up\ the\ socket\ with\ a\ series\ of\ simulated\ commands\n
+comment1.params=
+comment1.target=Command\ issueCommands()
+comment1.text=\n\ issueCommands\n\ A\ method\ which\ simulates\ a\ set\ of\ server\ commands\ being\ issued.\ For\ simplicity's\ sake\n\ we'll\ assume\ they\ are\ issued\ in\ date\ order.\ \n
+comment2.params=
+comment2.target=double\ issuePrice()
+comment2.text=\n\ issuePrice\n\ A\ method\ which\ simulates\ the\ prices\ at\ a\ given\ time.\ \n
+comment3.params=
+comment3.target=double\ issueFeedinPrice()
+comment3.text=\n\ issueFeedinPrice\n\ A\ method\ which\ simulates\ the\ feed-in\ price\n
+comment4.params=
+comment4.target=Price\ sendPrice()
+comment4.text=\n\ sendPrice\n\ A\ method\ which\ packs\ up\ all\ price\ information\ nicely\ and\ returns\ it.\ \n
+numComments=5
