@@ -1,4 +1,9 @@
 #BlueJ class context
 comment0.params=
-comment0.target=void\ testAccess()
-numComments=1
+comment0.target=void\ Test3_PrivateMethodsAndVariables()
+comment0.text=\n\ AccessTest\n
+comment1.params=
+comment1.target=void\ test3_publicMethodsAndVariables()
+comment2.params=
+comment2.target=void\ test4_MissingEnc()
+numComments=3

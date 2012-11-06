@@ -6,7 +6,9 @@ import java.util.*;
  */
 public class ServerSocket
 {
-    Stack commands;
+    public Stack commands; //The list of commands that will be sent to the Smart Meter
+    
+    public Stack receivedData; //The list of commands that have been sent to the smart meter.
     
     /**
      * Constructor
@@ -15,8 +17,7 @@ public class ServerSocket
     public ServerSocket()
     {
         commands = new Stack();
-        
-        
+        receivedData = new Stack();
         
         //valid Server Commands
         CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
@@ -103,4 +104,17 @@ public class ServerSocket
         
         return pr;
     }
+    
+    /**
+     * receiveCommands
+     * A simulation of commands being received by the smart-meter for the purpose of testing 
+     * the sending of sensitive data.
+     */
+    public void receiveCommands(Object o)
+    {
+        receivedData.add(o);
+    }
+    
+    
+    
 }

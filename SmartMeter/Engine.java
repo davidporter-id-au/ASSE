@@ -363,6 +363,9 @@ public class Engine
         
     }
     
-    
+    public static ServerSocket getServer() 
+    {
+        return socket;
+    }
     
 }

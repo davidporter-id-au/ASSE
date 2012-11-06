@@ -1,4 +1,6 @@
 import SmartMeter.*;
+import Server.*;
+import java.util.*;
 /**
  * An attempt to create external and damanging modificaitons to the SmartMeter class
  * 
@@ -29,18 +31,18 @@ public class ExternalTests
 //             Engine.forecast = null; //the forecast amount of usage as is provided by appliances
 //             Engine.cryptoKey = null; 
 
-        Engine.addUsage(15);
-        Engine.addProduction(15);
-        Engine.forecast();
-        Engine.usage();
-        Engine.clear();
-        Engine.setUsage(new Vector());
-        Engine.setProduction(new Vector());
-        Engine.getCurrentPrice();
-        Engine.packup();
-        Engine.setCurrentPrice(new Price (new PriceSignal("Vend", 23,23, new Date())));
-        
-        
+//         Engine.addUsage(15);
+//         Engine.addProduction(15);
+//         Engine.forecast();
+//         Engine.usage();
+//         Engine.clear();
+//         Engine.setUsage(new Vector());
+//         Engine.setProduction(new Vector());
+//         Engine.getCurrentPrice();
+//         Engine.packup();
+//         Engine.setCurrentPrice(new Price (new PriceSignal("Vend", 23,23, new Date())));
+//         
+//         
         
 
 
@@ -49,13 +51,25 @@ public class ExternalTests
     public static void test3_publicMethodsAndVariables()
     {
         Engine.getPrice();
-        Engine.updateForecast()
+        Engine.updateForecast();
         Engine.update();
         
         
     }
     
+    public static void test4_MissingEnc()
+    {
+        ServerSocket server = Engine.getServer();
+        
+        Stack s = server.receivedData; //get stack directly from the server
+        
+        while(!s.isEmpty())
+        {
+            System.out.println((String)s.pop());
+            
+        }
+        
+    }
     
     
-
 }
