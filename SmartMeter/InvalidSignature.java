@@ -6,8 +6,8 @@ package SmartMeter;
  */
 public class InvalidSignature extends Exception
 {
-    public InvalidSignature()
+    public InvalidSignature(String s)
     {
-         System.out.println("Invalid Signature - command not executed");
+         System.out.println(s);
     }
 }

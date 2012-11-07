@@ -1,9 +1,18 @@
 #BlueJ class context
 comment0.params=
-comment0.target=void\ Test3_PrivateMethodsAndVariables()
-comment0.text=\n\ AccessTest\n
+comment0.target=ExternalTests()
 comment1.params=
-comment1.target=void\ test3_publicMethodsAndVariables()
+comment1.target=void\ signatureTest()
+comment1.text=\n\ signatureTest\n\ The\ purpose\ of\ the\ the\ test\ is\ to\ determine\ if\ the\ Smart\ meter\ will\ correctly\n\ handle\ being\ given\ a\ number\ of\ commands\ with\ invalid\ signatures.\ \n\ \n\ Expected\ output\:\ Failure\ to\ execute\ all\ commands.\ \n\ \n\ All\ data\ should\ remain\ as\ initially\ declared,\ at\ default\ values.\ \n
 comment2.params=
-comment2.target=void\ test4_MissingEnc()
-numComments=3
+comment2.target=void\ Test3_PrivateMethodsAndVariables()
+comment2.text=\n\ AccessTest\n
+comment3.params=
+comment3.target=void\ test3_publicMethodsAndVariables()
+comment4.params=e
+comment4.target=void\ examineSM(SmartMeter.Engine)
+comment4.text=\n\ examineSM\n\ Displays\ internal\ information\ of\ the\ smartmeter\ through\ the\ debug\ interface\n
+comment5.params=server
+comment5.target=void\ examineServer(Server.ServerSocket)
+comment5.text=\n\ examineServer\n\ Takes\ a\ 'Server'\ set\ of\ output\ and\ displays\ it\ on\ screen.\ \n
+numComments=6

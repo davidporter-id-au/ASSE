@@ -4,58 +4,44 @@ import SmartMeter.*;
 /**
  * Command
  * A class represenging a signed command from either the provider 
- * or the consumer.  Self-verifies the action provided. 
+ * or the consumer. Wraps the command in a signiture to enable verification. 
  */
 public class Command 
 {
     private CommandAction commandAction; //the action to be executed
-    private String hash; //the hash of the commandAction to verify authenticity
-    private boolean validityTester; //A boolean signifying whether the signature of the object is valid or not
+    private String signature; //The signature of the server verifying the command is valid. 
+    private boolean validDate; //A boolean representing the validity of the date signing. used to prevent replay attacks
     
     /**
      * Constructor
      * @param ca The command action assigned to the command, the bit that says what is 
      * going to be executed. 
-     * @param h the hash of the command action. 
+     * @param sig the signature or hash of the command action. 
+     * @param d The 'validity' of the date being added. 
      */
-    public Command(CommandAction ca, String h)
+    public Command(CommandAction ca, String sig, boolean d)
     {
         commandAction = ca;
-        hash = h;
-        validityTester = true;
-    }
-    
-    /**
-     * Constructor - set sig
-     * The typical constructor with the additional feature of the ability of setting the signature 
-     * to either return true or false. 
-     */
-    public Command(CommandAction ca, String h, boolean validSig)
-    {
-        this(ca, h);
-        validityTester = validSig; //set the 'signature'
+        signature = sig;
+        validDate = d;
     }
     
     /**
      * getAction
-     * Verifies the action and provides it. 
+     * provides the action given in the command
      */
-    public String getAction() throws InvalidSignature
+    public String getAction()
     {
-        if(sigCheck())
-            return commandAction.getAction();
-        else throw new InvalidSignature();
+        return commandAction.getAction();
     }
     
     /**
      * getActionTime
      * Returns the date/time of the execution to be carried out. 
      */
-    public Date getActionTime() throws InvalidSignature
+    public Date getActionTime() 
     {
-        if(sigCheck())
-            return commandAction.getActionTime();
-        else throw new InvalidSignature();
+        return commandAction.getActionTime();   
     }
     
     /**
@@ -64,9 +50,7 @@ public class Command
      */
     public String getVendor() throws InvalidSignature
     {
-        if(sigCheck())
-            return commandAction.getVendor();
-        else throw new InvalidSignature();
+        return commandAction.getVendor();
     }
     
     /**
@@ -74,9 +58,9 @@ public class Command
      * A dummy method signifying the check of the command action as being 
      * Hashed by the corresponding cryptographic key. 
      */
-    public boolean sigCheck()
+    public String getSig()
     {
-        return validityTester; //skips the signature checking for testing purposes
+        return signature; //skips the signature checking for testing purposes
     }
     
 

@@ -7,52 +7,86 @@ import java.util.*;
 public class ServerSocket
 {
     public Stack commands; //The list of commands that will be sent to the Smart Meter
-    
     public Stack receivedData; //The list of commands that have been sent to the smart meter.
+    public double sellPrice; //the price at which electricity is sold
+    public double feedinPrice; //the price at which electricity is bought off consumers
     
     /**
      * Constructor
      * sets up the socket with a series of simulated commands
      */
-    public ServerSocket()
+    public ServerSocket(double sellp, double feedp)
     {
         commands = new Stack();
         receivedData = new Stack();
         
+        sellPrice = sellp;
+        feedinPrice = feedp;
+        
+    }
+    
+    /**
+     * Constructor - Default values
+     */
+    public ServerSocket()
+    {
+        this(10, 100);
+    }
+    
+    /**
+     * testCommands
+     * Loads a sequence of test commands into the command issue stack
+     */
+    public void testCommand(String s, boolean d)
+    {
         //valid Server Commands
         CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
         CommandAction cGetForecast = new CommandAction("forecast", "vendor", new Date());
         CommandAction cGetUsage = new CommandAction("usage", "vendor", new Date());
         CommandAction cGetProduction = new CommandAction("production", "vendor", new Date());
         
+        //Test a bunch of actions with valid signatures and add them to the stack to dispense for testing purposes later. 
+        Command update = new Command(cUpdate, s, d);
+        Command forecast = new Command(cGetForecast, s, d);
+        Command usage = new Command(cGetUsage, s, d);
+        Command production = new Command(cGetProduction, s, d);
         
-//Test a bunch of actions with valid signatures and add them to the stack to dispense for testing purposes later. 
-        Command update = new Command(cUpdate, "hash");
-       Command forecast = new Command(cGetForecast, "hash");
-      //  Command usage = new Command(cGetUsage, "hash");
-      //  Command production = new Command(cGetProduction, "hash");
-    
+        //Add them to the command stack
         commands.add(update);
-      commands.add(forecast);
-      //  commands.add(usage);
-      //  commands.add(production);
-        
-        
-        //Test a bunch of actions with invalid sigatures. 
-//         Command updateF = new Command(cUpdate, "hash", false);
-//         Command forecastF = new Command(cGetForecast, "hash", false);
-//         Command usageF = new Command(cGetUsage, "hash", false);
-//         Command productionF = new Command(cGetProduction, "hash", false);
-//         
-//         commands.add(updateF);
-//         commands.add(forecastF);
-//         commands.add(usageF);
-//         commands.add(productionF);
-       
-        
-        
-        
-        
+        commands.add(forecast);
+        commands.add(usage);
+        commands.add(production);
+    }
+    
+    /**
+     * testSignature
+     * Loads a sequence of invalid test commands into the command issue stack
+     * The commands only are invalid insofar as the signature is incorrect
+     */
+    public void testSignature()
+    {
+        testCommand("InvalidSig", true); //try invalid string
+        testCommand("", true); //try empty string
+    }
+    
+    /**
+     * testDateValidity
+     * Loads a sequence of commands into the command stack with valid signatures, but with 
+     * invalid dates. Typical of a replay attack.
+     */
+    public void testDateValidity()
+    {
+        testCommand("###Secret KEY###", false); //load valid commands with invalid dates
+        testCommand("invalidKey", false); //load invalid commands with invalid dates
+    }
+    
+    /**
+     * validCommands
+     * Loads a sequence of valid commands into the command stack.
+     */
+    public void validCommands()
+    {
+        testCommand("###Secret KEY###", true); //load valid commands with valid dates
     }
     
     /**
@@ -61,10 +95,7 @@ public class ServerSocket
      * we'll assume they are issued in date order. 
      */
     public Command issueCommands()
-    {
-       
-        
-        
+    {   
         if(!commands.isEmpty())
         {
             
@@ -77,19 +108,21 @@ public class ServerSocket
     /**
      * issuePrice
      * A method which simulates the prices at a given time. 
+     * For the purposes of testing, this will always be 10.
      */
     public double issuePrice()
     {
-        return Math.random()*10; 
+        return sellPrice; 
     }
     
     /**
      * issueFeedinPrice
-     * A method which simulates the feed-in price
+     * A method which simulates the feed-in price. For the purposes
+     * of testing this will always be 100.
      */
     public double issueFeedinPrice()
     {
-        return (int)(Math.random()*100);
+        return feedinPrice;
     }
     
     /**
@@ -106,11 +139,11 @@ public class ServerSocket
     }
     
     /**
-     * receiveCommands
+     * receiveData
      * A simulation of commands being received by the smart-meter for the purpose of testing 
      * the sending of sensitive data.
      */
-    public void receiveCommands(Object o)
+    public void receiveData(Object o)
     {
         receivedData.add(o);
     }

@@ -44,7 +44,7 @@ public class Price
         {
             return information.getPrice();
         }
-        else throw new InvalidSignature();
+        else throw new InvalidSignature("Invalid Signature");
     }
     
     /**
@@ -58,7 +58,7 @@ public class Price
         {
             return information.getDate();
         }
-        else throw new InvalidSignature();
+        else throw new InvalidSignature("Invalid Signature");
     }
     
     /**
@@ -71,7 +71,7 @@ public class Price
         {
             return information.getVendor();
         }
-        else throw new InvalidSignature();
+        else throw new InvalidSignature("Invalid Signature");
     }
     
     /**
@@ -94,7 +94,7 @@ public class Price
         {
             return information.getFeedPrice();
         }
-        else throw new InvalidSignature();
+        else throw new InvalidSignature("Invalid Signature");
     }
     
     /**
@@ -113,5 +113,14 @@ public class Price
     private void setPriceSignal(PriceSignal in)
     {
         information = in;
+    }
+    
+    /**
+     * toString
+     * Returns a string representation of the price.
+     */
+    public String toString()
+    {
+        return "Price: " + information.getPrice() + " Feed in Price: " + information.getFeedPrice();
     }
 }
