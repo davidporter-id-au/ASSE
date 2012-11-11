@@ -1,6 +1,6 @@
 #BlueJ class context
-comment0.params=
-comment0.target=double\ getPrice()
+comment0.params=e
+comment0.target=double\ getPrice(SmartMeter.Engine)
 comment0.text=\n\ getPrice\n\ Returns\ a\ validated\ current\ price\ of\ electricity.\ \n\ Returns\ negative\ 1\ if\ invalid\ signature.\ \n
 comment1.params=
 comment1.target=SmartMeter.UsageBlock[]\ forecast()

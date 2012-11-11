@@ -11,8 +11,7 @@ import java.util.Date;
 public class Price
 {
     private PriceSignal information;//The price information
-    private boolean validSig; //an abstraction of the signature verification process
-    private String hash;//The attached signature, verifying authenticity of 
+    private String key;//The attached signature, verifying authenticity of 
     //the price information
 
     /**
@@ -21,30 +20,16 @@ public class Price
     public Price(PriceSignal setup, String h)
     {
        setPriceSignal(setup);
-       setHash(h);
-    }
-    
-    /**
-     * Constructor with signature
-     * allows for the specification of a valid or invalid signature
-     */
-    public Price (PriceSignal setup, String h, boolean sig)
-    {
-        this(setup,h);
-        validSig = sig; // setup the boolean representation of the signature;
+       setkey(h);
     }
     
     /**
      * getPrice
      * Returns a validated double, referring to the price per KWH. 
      */
-    public double getPrice() throws InvalidSignature
+    public double getPrice() 
     {
-        if(validSig()) 
-        {
-            return information.getPrice();
-        }
-        else throw new InvalidSignature("Invalid Signature");
+        return information.getPrice();
     }
     
     /**
@@ -52,58 +37,45 @@ public class Price
      * Returns a validated Date referring to the date the price information
      * was sent. 
      */
-    public Date getDate() throws InvalidSignature
+    public Date getDate() 
     {
-        if(validSig())
-        {
-            return information.getDate();
-        }
-        else throw new InvalidSignature("Invalid Signature");
+         return information.getDate();
     }
     
     /**
      * getVendor
      * Returns a validated String referring to the vendor. 
      */
-    public String getVendor() throws InvalidSignature
+    public String getVendor()
     {
-        if(validSig())
-        {
-            return information.getVendor();
-        }
-        else throw new InvalidSignature("Invalid Signature");
+        return information.getVendor();
     }
-    
-    /**
-     * validSig
-     * Performs a check of the associated signature upon the information
-     * given and returns true if found to be valid. 
-     */
-    public boolean validSig()
-    {
-        return validSig;//some check of validity
-    }
-    
+       
     /**
      * getFeedInPrice
      * returns the validated present feed-in price. 
      */
-    public double getFeedInPrice() throws InvalidSignature
+    public double getFeedInPrice() 
     {
-        if(validSig())
-        {
-            return information.getFeedPrice();
-        }
-        else throw new InvalidSignature("Invalid Signature");
+        return information.getFeedPrice();
     }
     
     /**
-     * setHash
-     * Private method that sets the price signal hash and signature. 
+     * getKey
+     * returns the signature 'key'.
      */
-    private void setHash (String in)
+    public String getKey()
     {
-        hash = in;
+        return key;
+    }
+    
+    /**
+     * setkey
+     * Private method that sets the price signal key and signature. 
+     */
+    private void setkey (String in)
+    {
+        key = in;
     }
     
     /**

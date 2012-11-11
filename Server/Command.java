@@ -10,20 +10,17 @@ public class Command
 {
     private CommandAction commandAction; //the action to be executed
     private String signature; //The signature of the server verifying the command is valid. 
-    private boolean validDate; //A boolean representing the validity of the date signing. used to prevent replay attacks
     
     /**
      * Constructor
      * @param ca The command action assigned to the command, the bit that says what is 
      * going to be executed. 
      * @param sig the signature or hash of the command action. 
-     * @param d The 'validity' of the date being added. 
      */
-    public Command(CommandAction ca, String sig, boolean d)
+    public Command(CommandAction ca, String sig)
     {
         commandAction = ca;
         signature = sig;
-        validDate = d;
     }
     
     /**

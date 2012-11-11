@@ -15,9 +15,9 @@ public class ClientInterface
      * Returns a validated current price of electricity. 
      * Returns negative 1 if invalid signature. 
      */
-    public double getPrice()
+    public double getPrice(Engine e)
     {
-        return Engine.getPrice();
+        return e.getPrice();
     }
     
     /**
@@ -28,7 +28,7 @@ public class ClientInterface
      */
     public static UsageBlock[] forecast()
     {
-        UsageBlock [] u = new UsageBlock [10];
+        UsageBlock [] u = new UsageBlock [3];
         
         for (int i=0; i < u.length; i++)
         {

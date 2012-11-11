@@ -1,5 +1,6 @@
 package Server;
 import java.util.*;
+import SmartMeter.*;
 /**
  * ServerSocket
  * A simulated set of commands from a server
@@ -7,21 +8,28 @@ import java.util.*;
 public class ServerSocket
 {
     public Stack commands; //The list of commands that will be sent to the Smart Meter
-    public Stack receivedData; //The list of commands that have been sent to the smart meter.
-    public double sellPrice; //the price at which electricity is sold
-    public double feedinPrice; //the price at which electricity is bought off consumers
+    public Stack<String> receivedData; //The list of commands that have been sent to the smart meter.
+    public Price price;// the actual price block
     
     /**
      * Constructor
-     * sets up the socket with a series of simulated commands
+     * sets up the socket with a series of simulated commands.
+     * 
+     * Note that, by default, it sets the price to have a sell amount of 10, and production
+     * amount of 100. 
      */
     public ServerSocket(double sellp, double feedp)
     {
         commands = new Stack();
         receivedData = new Stack();
         
-        sellPrice = sellp;
-        feedinPrice = feedp;
+       // sellPrice = sellp;
+       // feedinPrice = feedp;
+        
+        //Wrap up information in a price block. Redundant, but good for testing
+        PriceSignal p = new PriceSignal("Vendor", 10, 100, new Date());
+        
+        price = new Price (p, "###Secret KEY###"); //wrap up with signature.
         
     }
     
@@ -37,22 +45,26 @@ public class ServerSocket
      * testCommands
      * Loads a sequence of test commands into the command issue stack
      */
-    public void testCommand(String s, boolean d)
+    public void testCommand(String s, Date d)
     {
         //valid Server Commands
-        CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
-        CommandAction cGetForecast = new CommandAction("forecast", "vendor", new Date());
-        CommandAction cGetUsage = new CommandAction("usage", "vendor", new Date());
-        CommandAction cGetProduction = new CommandAction("production", "vendor", new Date());
+        CommandAction cUpdate = new CommandAction("update", "vendor", d);
+        CommandAction cGetForecast = new CommandAction("forecast", "vendor", d);
+        CommandAction cGetUsage = new CommandAction("usage", "vendor", d);
+        CommandAction cGetProduction = new CommandAction("production", "vendor", d);
         
         //Test a bunch of actions with valid signatures and add them to the stack to dispense for testing purposes later. 
-        Command update = new Command(cUpdate, s, d);
-        Command forecast = new Command(cGetForecast, s, d);
-        Command usage = new Command(cGetUsage, s, d);
-        Command production = new Command(cGetProduction, s, d);
+        Command update = new Command(cUpdate, s);
+        Command forecast = new Command(cGetForecast, s);
+        Command usage = new Command(cGetUsage, s);
+        Command production = new Command(cGetProduction, s);
         
         //Add them to the command stack
         commands.add(update);
+        commands.add(update);
+        commands.add(update); //Three to demonstrate the effect of usage blocks
+        
+        
         commands.add(forecast);
         commands.add(usage);
         commands.add(production);
@@ -65,8 +77,8 @@ public class ServerSocket
      */
     public void testSignature()
     {
-        testCommand("InvalidSig", true); //try invalid string
-        testCommand("", true); //try empty string
+        testCommand("InvalidSig", new Date()); //try invalid string
+        testCommand("", new Date()); //try empty string
     }
     
     /**
@@ -74,10 +86,10 @@ public class ServerSocket
      * Loads a sequence of commands into the command stack with valid signatures, but with 
      * invalid dates. Typical of a replay attack.
      */
-    public void testDateValidity()
-    {
-        testCommand("###Secret KEY###", false); //load valid commands with invalid dates
-        testCommand("invalidKey", false); //load invalid commands with invalid dates
+    public void testDateValidity(Date d)
+    { 
+        testCommand("###Secret KEY###", d); //load valid commands with invalid dates
+        testCommand("invalidKey", d); //load invalid commands with invalid dates
     }
     
     /**
@@ -86,7 +98,7 @@ public class ServerSocket
      */
     public void validCommands()
     {
-        testCommand("###Secret KEY###", true); //load valid commands with valid dates
+        testCommand("###Secret KEY###", new Date()); //load valid commands with valid dates
     }
     
     /**
@@ -105,49 +117,59 @@ public class ServerSocket
         else return null;
     }
     
-    /**
-     * issuePrice
-     * A method which simulates the prices at a given time. 
-     * For the purposes of testing, this will always be 10.
-     */
-    public double issuePrice()
-    {
-        return sellPrice; 
-    }
-    
-    /**
-     * issueFeedinPrice
-     * A method which simulates the feed-in price. For the purposes
-     * of testing this will always be 100.
-     */
-    public double issueFeedinPrice()
-    {
-        return feedinPrice;
-    }
-    
+
     /**
      * sendPrice
      * A method which packs up all price information nicely and returns it. 
      */
     public Price sendPrice()
     {
-        PriceSignal p = new PriceSignal("Vendor", issuePrice(), issueFeedinPrice(), new Date());
-        
-        Price pr = new Price (p, "sig", true); //wrap up with signature.
-        
-        return pr;
+        return price;
     }
     
     /**
      * receiveData
      * A simulation of commands being received by the smart-meter for the purpose of testing 
      * the sending of sensitive data.
+     * 
+     * For ease of use, only strings will be used here. 
      */
-    public void receiveData(Object o)
+    public void receiveData(String data)
     {
-        receivedData.add(o);
+        receivedData.add(data);
     }
     
+    /**
+     * examineReceived
+     * 
+     * A method which will output the received data
+     */
+    public String examineReceived()
+    {
+        String output = "";
+        for(int i = 0; i < receivedData.size(); i++)
+        {
+            output = output + receivedData.get(i);
+        }
+        return output;
+    }
     
+    /**
+     * setPrice
+     * Allows the setting of a specific price for the purposes of testing
+     */
+    public void setPrice(Price p)
+    {
+        price = p;
+    }
     
+    /**
+     * addCommand
+     * Adds a command to the command stack. Added for the purposes of testing. 
+     */
+    public void addCommand(Command c)
+    {
+        commands.add(c);
+        
+    }
 }

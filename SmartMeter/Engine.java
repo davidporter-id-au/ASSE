@@ -50,7 +50,7 @@ public class Engine
     }
     
     /**
-     * Command
+     * command
      * The command loop, wait for commands and then execute them
      */
     public  void command()
@@ -158,10 +158,10 @@ public class Engine
         currentUse.add(in);
     }
     
-//     protected void addProduction(double in)
-//     {
-//         production.add(in);
-//     }
+    protected void addProduction(double in)
+    {
+        currentProduction.add(in);
+    }
     
     /**
      * forecast
@@ -181,16 +181,16 @@ public class Engine
     {
         Object [] send = new Object [3]; //create a bundle of the items to send
         
-        send[0] = "Production and consumption of electricity ";
+//         send[0] = "Production and consumption of electricity ";
+//         
+//         //Add usage
+//         send[1] = usage;
+//         
+//         //add production
+//         send[2] = production; 
         
-        //Add usage
-        send[1] = usage;
-        
-        //add production
-        send[2] = production; 
-        
-        sender(usage); //send the list of usage data   
-        sender(production);//send the production data
+        sender(usage); //Send the usage and production data
+        sender(production);
     }
     
     /**
@@ -230,10 +230,9 @@ public class Engine
      */
     public  double getPrice()
     {   
-        try{
+        if(currentPrice.getKey().equals(cryptoKey))
             return currentPrice.getPrice();
-        }
-        catch(InvalidSignature e)
+        else
         {
             System.out.println("Signature error");
             return -1 ;
@@ -253,23 +252,15 @@ public class Engine
     {   
        Price p = socket.sendPrice(); //Get the present price from the server
        
-       if (p.validSig())
+       if (p.getKey().equals(cryptoKey))
        {
            setCurrentPrice(p);
-           try
-           {
-                System.out.println("Price updated to " + currentPrice.getPrice()); 
-           }
-           catch(InvalidSignature e)
-           {
-               System.out.println("Price signature invalid, price not updated"); //redundant
-           }
+           System.out.println("Price updated to " + currentPrice.getPrice()); 
         }
-        else 
-        {
+       else 
+       {
             System.out.println("Price signature invalid, price not updated");
-        }
-        
+       }
     }
     
     /**
@@ -303,8 +294,6 @@ public class Engine
         packup(); //packup the old usage block and place it in the log. 
         currentUse = new UsageBlock(currentPrice);//start new block based on new price
         currentProduction = new UsageBlock(currentPrice);
-        
-        
 
     }
     
@@ -346,7 +335,7 @@ public class Engine
      * A simulated socket. Commands are sent through this to be theoretically dispatched
      * securely to the server. Signed on the fly and dispatched with signature. 
      */
-    private  void sender(Object o)
+    private void sender(Object o)
     {   
         String sendString = encryptSign(o);
         //send to server through socket
@@ -360,7 +349,7 @@ public class Engine
      * encrypts and signs the given data. In this case, the signature and encryption
      * is given simulated only. 
      */
-    private  String encryptSign(Object o)
+    private String encryptSign(Object o)
     {
         return "<Start symmetric encryption with " + cryptoKey + "> " + "\nObject being sent:" + o + "<End encryption with " + cryptoKey + ">";
     }
@@ -375,12 +364,24 @@ public class Engine
      * receives an invalid signature. 
      */
     private  boolean timeCheck(Command c)
-    {
+    {   
+        Date now = new Date();//the time now
         
-        Date actionTime = c.getActionTime();
-
-        return true; //need to figure out some kind of time checking mechanism
-   
+        
+        Calendar cal = Calendar.getInstance(); //Create a calendar object for the window in the past
+        
+        cal.setTime(c.getActionTime());
+        
+        for(int i = 0; i < VALIDTIMEFRAME; i++)
+            cal.roll(Calendar.MINUTE, false); //roll back the calendar VALIDTIMEFRAME minutes
+        
+        Date validWindow = cal.getTime();    
+            
+        if(c.getActionTime().after(validWindow)) //If the action is within VALIDTIMEFRAME minutes 
+            return true; //... it is a valid time signature
+        else 
+            return false;
+        
     }
     
     /**
@@ -411,37 +412,50 @@ public class Engine
      * returns a list of system state variables and returns this as a string.
      * This would not exist on a production system because it exposes
      * confidential information for the purpose of validity testing. 
+     * 
+     * @param verbose whether or not to include large amounts of information pertaining
+     * to production
      */
-    public String smDebug()
+    public String smDebug(boolean verbose)
     {
-        String output = "\n=========== Begin Debug Data =================";
+        String output = "\n\n=========== Begin Debug Data =================\n";
         
-        output = currentPrice + "\n";
+        output = output + currentPrice + "\n";
         output = output + "Current consumption block: " + currentUse  + "\n";
         output = output + "Current Production block: "+ currentProduction  + "\n";
         output = output + "Key: " + cryptoKey  + "\n";
         
-        
-        output = output + "\nUsage: \n";
-        for(UsageBlock b: usage)
+        if(verbose)
         {
-            output = output + b + "\n";
+            output = output + "\nUsage: \n";
+            for(UsageBlock b: usage)
+            {
+                output = output + b + "\n";
+            }
+            
+            output = output + "\nProduction: \n";
+            for(UsageBlock b: production)
+            {
+                output = output + b + "\n";
+            }
+            
+            output = output + "\nforecast: \n";
+            for(UsageBlock b: forecast)
+            {
+                output = output + b + "\n";
+            }
         }
+        return output + "===========================================";
         
-        output = output + "\nProduction: \n";
-        for(UsageBlock b: production)
-        {
-            output = output + b + "\n";
-        }
-        
-        output = output + "\nforecast: \n";
-        for(UsageBlock b: forecast)
-        {
-            output = output + b + "\n";
-        }
-        
-        return output + "=====================================";
-        
+    }
+    
+    /**
+     * smDebug - Quieter mode
+     * starts the debugger in non-verbose mode by default
+     */
+    public String smDebug()
+    {
+        return smDebug(false);
     }
     
 }

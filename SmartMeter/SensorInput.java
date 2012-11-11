@@ -1,4 +1,4 @@
-package SmartMeter;
+    package SmartMeter;
 /**
  * SensorInput
  * A class representing the data being added from the devices' hardware sensors
