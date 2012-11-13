@@ -38,6 +38,8 @@ public class Engine
      */
     public Engine(ServerSocket s)
     {
+        System.out.println("\nSystem Loading");
+        
         clear(); //Use a vector to add all the elements in the usage log. 
         setServer(s);
         getCurrentPrice();

@@ -15,6 +15,9 @@ public class ExternalTests
               
     }
     
+    
+    
+    
     /**
      * signatureTest
      * The purpose of the the test is to determine if the Smart meter will correctly
@@ -117,7 +120,9 @@ public class ExternalTests
             screen = screen +  "\nOracle: Should be no change in system variables as the (simulated) date stamp";
             screen = screen +  "should fail to authenticate on the second set of commands. \n";
         
-        
+        System.out.println(screen);
+            
+            
         ServerSocket normalServer = new ServerSocket();
         ServerSocket hostileServer = new ServerSocket();
         
@@ -132,12 +137,19 @@ public class ExternalTests
         normalServer.validCommands();
         hostileServer.testDateValidity(badDate);
         
+        System.out.println("Normal Server");
         Engine e = new Engine(normalServer); //get baseline
 
+        e.command();
+        
         examineSM(e);
+        
+        System.out.println("Hostile Server");
         
         //Try adding hostile variables and test effect
         e.setServer(hostileServer);
+        
+        e.command();
         
         examineSM(e); //output variables after change
         
@@ -295,6 +307,12 @@ public class ExternalTests
      */
     public void testSendEnc()
     {
+        System.out.println("Send Encryption Test");
+        System.out.println("A method which observes all data received by the server to demonstrate if it has been ");
+        System.out.println("through the appropriate encryption simulation methods in the SmartMeter");        
+        System.out.println("\nOracle: All data should indicate that encryption 'has' (in a simulated sense) occured.");
+
+        
         ServerSocket s = new ServerSocket();
         
         s.validCommands();

@@ -1,17 +1,17 @@
 #BlueJ package file
 package.editor.height=592
 package.editor.width=895
-package.editor.x=370
+package.editor.x=46
 package.editor.y=165
 package.numDependencies=0
 package.numTargets=4
 package.showExtends=true
 package.showUses=true
 project.charset=UTF-8
-target1.editor.height=700
-target1.editor.width=900
-target1.editor.x=147
-target1.editor.y=130
+target1.editor.height=775
+target1.editor.width=1194
+target1.editor.x=45
+target1.editor.y=96
 target1.height=50
 target1.name=ExternalTests
 target1.naviview.expanded=true
