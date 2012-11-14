@@ -26,10 +26,12 @@ public SensorInput()
  * meters. The intention is that this amount represents a unit measure, rather than a 
  * flow measure as one might expect. IE, KWH, rather than KW. This is for the purpose
  * of simplification. 
+ * 
+ * Here, for testing purposes it will only issue units of 150.
  */
 public double issue()
 {
-    return Math.random()*100;
+    return 150;
 }
 
 }

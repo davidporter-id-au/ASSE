@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="2.0.1" sequence="0" timestamp="1351418120000" analysisTimestamp="1351425173846" release="">
+  <Project projectName="ASSE">
+    <Jar>/Users/admin/JavaDev/ASSE/SmartMeter/ClientInterface.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/SmartMeter/Engine.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/SmartMeter/fileHandler.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/SmartMeter/InvalidSignature.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/SmartMeter/PriceInterface.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/SmartMeter/SensorInput.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/SmartMeter/SmartMeterClient.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/SmartMeter/UsageBlock.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/Server/Command.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/Server/CommandAction.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/Server/Price.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/Server/PriceSignal.class</Jar>
+    <Jar>/Users/admin/JavaDev/ASSE/Server/ServerSocket.class</Jar>
+  </Project>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" abbrev="UrF" category="PERFORMANCE">
+    <Class classname="Server.Command">
+      <SourceLine classname="Server.Command" sourcefile="Command.java" sourcepath="Server/Command.java"/>
+    </Class>
+    <Field classname="Server.Command" name="hash" signature="Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="Server.Command" sourcefile="Command.java" sourcepath="Server/Command.java"/>
+    </Field>
+    <SourceLine classname="Server.Command" start="25" end="25" startBytecode="11" endBytecode="11" sourcefile="Command.java" sourcepath="Server/Command.java"/>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" abbrev="EI" category="MALICIOUS_CODE">
+    <Class classname="Server.CommandAction">
+      <SourceLine classname="Server.CommandAction" sourcefile="CommandAction.java" sourcepath="Server/CommandAction.java"/>
+    </Class>
+    <Method classname="Server.CommandAction" name="getActionTime" signature="()Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="Server.CommandAction" start="39" end="39" startBytecode="0" endBytecode="46" sourcefile="CommandAction.java" sourcepath="Server/CommandAction.java"/>
+    </Method>
+    <Field classname="Server.CommandAction" name="actionTime" signature="Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="Server.CommandAction" sourcefile="CommandAction.java" sourcepath="Server/CommandAction.java"/>
+    </Field>
+    <SourceLine classname="Server.CommandAction" start="39" end="39" startBytecode="4" endBytecode="4" sourcefile="CommandAction.java" sourcepath="Server/CommandAction.java"/>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP2" priority="2" abbrev="EI2" category="MALICIOUS_CODE">
+    <Class classname="Server.CommandAction">
+      <SourceLine classname="Server.CommandAction" sourcefile="CommandAction.java" sourcepath="Server/CommandAction.java"/>
+    </Class>
+    <Method classname="Server.CommandAction" name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;)V" isStatic="false">
+      <SourceLine classname="Server.CommandAction" start="21" end="25" startBytecode="0" endBytecode="107" sourcefile="CommandAction.java" sourcepath="Server/CommandAction.java"/>
+    </Method>
+    <Field classname="Server.CommandAction" name="actionTime" signature="Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="Server.CommandAction" sourcefile="CommandAction.java" sourcepath="Server/CommandAction.java"/>
+    </Field>
+    <LocalVariable name="at" register="3" pc="16" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="Server.CommandAction" start="24" end="24" startBytecode="16" endBytecode="16" sourcefile="CommandAction.java" sourcepath="Server/CommandAction.java"/>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" abbrev="UrF" category="PERFORMANCE">
+    <Class classname="Server.Price">
+      <SourceLine classname="Server.Price" sourcefile="Price.java" sourcepath="Server/Price.java"/>
+    </Class>
+    <Field classname="Server.Price" name="hash" signature="Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="Server.Price" sourcefile="Price.java" sourcepath="Server/Price.java"/>
+    </Field>
+    <SourceLine classname="Server.Price" start="96" end="96" startBytecode="2" endBytecode="2" sourcefile="Price.java" sourcepath="Server/Price.java"/>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" abbrev="EI" category="MALICIOUS_CODE">
+    <Class classname="Server.PriceSignal">
+      <SourceLine classname="Server.PriceSignal" sourcefile="PriceSignal.java" sourcepath="Server/PriceSignal.java"/>
+    </Class>
+    <Method classname="Server.PriceSignal" name="getDate" signature="()Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="Server.PriceSignal" start="41" end="41" startBytecode="0" endBytecode="46" sourcefile="PriceSignal.java" sourcepath="Server/PriceSignal.java"/>
+    </Method>
+    <Field classname="Server.PriceSignal" name="date" signature="Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="Server.PriceSignal" sourcefile="PriceSignal.java" sourcepath="Server/PriceSignal.java"/>
+    </Field>
+    <SourceLine classname="Server.PriceSignal" start="41" end="41" startBytecode="4" endBytecode="4" sourcefile="PriceSignal.java" sourcepath="Server/PriceSignal.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" abbrev="DLS" category="STYLE">
+    <Class classname="SmartMeter.Engine">
+      <SourceLine classname="SmartMeter.Engine" sourcefile="Engine.java" sourcepath="SmartMeter/Engine.java"/>
+    </Class>
+    <Method classname="SmartMeter.Engine" name="timeCheck" signature="(LServer/Command;)Z" isStatic="true">
+      <SourceLine classname="SmartMeter.Engine" start="297" end="329" startBytecode="0" endBytecode="40" sourcefile="Engine.java" sourcepath="SmartMeter/Engine.java"/>
+    </Method>
+    <LocalVariable name="actionTime" register="1" pc="5" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="SmartMeter.Engine" start="297" end="297" startBytecode="4" endBytecode="4" sourcefile="Engine.java" sourcepath="SmartMeter/Engine.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="actionTime"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <BugInstance type="UUF_UNUSED_FIELD" priority="2" abbrev="UuF" category="PERFORMANCE">
+    <Class classname="SmartMeter.Engine">
+      <SourceLine classname="SmartMeter.Engine" sourcefile="Engine.java" sourcepath="SmartMeter/Engine.java"/>
+    </Class>
+    <Field classname="SmartMeter.Engine" name="sensor" signature="LSmartMeter/SensorInput;" isStatic="true">
+      <SourceLine classname="SmartMeter.Engine" sourcefile="Engine.java" sourcepath="SmartMeter/Engine.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" abbrev="EI" category="MALICIOUS_CODE">
+    <Class classname="SmartMeter.UsageBlock">
+      <SourceLine classname="SmartMeter.UsageBlock" sourcefile="UsageBlock.java" sourcepath="SmartMeter/UsageBlock.java"/>
+    </Class>
+    <Method classname="SmartMeter.UsageBlock" name="getEnd" signature="()Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="SmartMeter.UsageBlock" start="120" end="120" startBytecode="0" endBytecode="46" sourcefile="UsageBlock.java" sourcepath="SmartMeter/UsageBlock.java"/>
+    </Method>
+    <Field classname="SmartMeter.UsageBlock" name="end" signature="Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="SmartMeter.UsageBlock" sourcefile="UsageBlock.java" sourcepath="SmartMeter/UsageBlock.java"/>
+    </Field>
+    <SourceLine classname="SmartMeter.UsageBlock" start="120" end="120" startBytecode="4" endBytecode="4" sourcefile="UsageBlock.java" sourcepath="SmartMeter/UsageBlock.java"/>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" abbrev="EI" category="MALICIOUS_CODE">
+    <Class classname="SmartMeter.UsageBlock">
+      <SourceLine classname="SmartMeter.UsageBlock" sourcefile="UsageBlock.java" sourcepath="SmartMeter/UsageBlock.java"/>
+    </Class>
+    <Method classname="SmartMeter.UsageBlock" name="getStart" signature="()Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="SmartMeter.UsageBlock" start="129" end="129" startBytecode="0" endBytecode="46" sourcefile="UsageBlock.java" sourcepath="SmartMeter/UsageBlock.java"/>
+    </Method>
+    <Field classname="SmartMeter.UsageBlock" name="start" signature="Ljava/util/Date;" isStatic="false">
+      <SourceLine classname="SmartMeter.UsageBlock" sourcefile="UsageBlock.java" sourcepath="SmartMeter/UsageBlock.java"/>
+    </Field>
+    <SourceLine classname="SmartMeter.UsageBlock" start="129" end="129" startBytecode="4" endBytecode="4" sourcefile="UsageBlock.java" sourcepath="SmartMeter/UsageBlock.java"/>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" abbrev="Nm" category="BAD_PRACTICE">
+    <Class classname="SmartMeter.fileHandler">
+      <SourceLine classname="SmartMeter.fileHandler" start="6" end="6" sourcefile="fileHandler.java" sourcepath="SmartMeter/fileHandler.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Sun, 28 Oct 2012 19:55:20 +1000" total_classes="13" referenced_classes="40" total_bugs="10" total_size="336" num_packages="2" vm_version="20.10-b01-428" cpu_seconds="24.82" clock_seconds="7250.64" peak_mbytes="87.81" alloc_mbytes="763.88" gc_seconds="0.16" priority_2="10">
+    <PackageStats package="Server" total_bugs="5" total_types="5" total_size="132" priority_2="5">
+      <ClassStats class="Server.Command" sourceFile="Command.java" interface="false" size="22" bugs="1" priority_2="1"/>
+      <ClassStats class="Server.CommandAction" sourceFile="CommandAction.java" interface="false" size="16" bugs="2" priority_2="2"/>
+      <ClassStats class="Server.Price" sourceFile="Price.java" interface="false" size="32" bugs="1" priority_2="1"/>
+      <ClassStats class="Server.PriceSignal" sourceFile="PriceSignal.java" interface="false" size="32" bugs="1" priority_2="1"/>
+      <ClassStats class="Server.ServerSocket" sourceFile="ServerSocket.java" interface="false" size="30" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="SmartMeter" total_bugs="5" total_types="8" total_size="204" priority_2="5">
+      <ClassStats class="SmartMeter.ClientInterface" sourceFile="ClientInterface.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="SmartMeter.Engine" sourceFile="Engine.java" interface="false" size="118" bugs="2" priority_2="2"/>
+      <ClassStats class="SmartMeter.InvalidSignature" sourceFile="InvalidSignature.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="SmartMeter.PriceInterface" sourceFile="PriceInterface.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="SmartMeter.SensorInput" sourceFile="SensorInput.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="SmartMeter.SmartMeterClient" sourceFile="SmartMeterClient.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="SmartMeter.UsageBlock" sourceFile="UsageBlock.java" interface="false" size="54" bugs="2" priority_2="2"/>
+      <ClassStats class="SmartMeter.fileHandler" sourceFile="fileHandler.java" interface="false" size="3" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="966" invocations="40" avgMicrosecondsPerInvocation="24161" maxMicrosecondsPerInvocation="154198" standardDeviationMircosecondsPerInvocation="40868"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="755" invocations="40" avgMicrosecondsPerInvocation="18885" maxMicrosecondsPerInvocation="173485" standardDeviationMircosecondsPerInvocation="37892"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="548" invocations="378" avgMicrosecondsPerInvocation="1451" maxMicrosecondsPerInvocation="39261" standardDeviationMircosecondsPerInvocation="4461"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="547" invocations="40" avgMicrosecondsPerInvocation="13676" maxMicrosecondsPerInvocation="89680" standardDeviationMircosecondsPerInvocation="23128"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="459" invocations="2" avgMicrosecondsPerInvocation="229642" maxMicrosecondsPerInvocation="268494" standardDeviationMircosecondsPerInvocation="38854"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="392" invocations="40" avgMicrosecondsPerInvocation="9820" maxMicrosecondsPerInvocation="106860" standardDeviationMircosecondsPerInvocation="21806"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="351" invocations="75" avgMicrosecondsPerInvocation="4688" maxMicrosecondsPerInvocation="75029" standardDeviationMircosecondsPerInvocation="12497"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="256" invocations="40" avgMicrosecondsPerInvocation="6417" maxMicrosecondsPerInvocation="51942" standardDeviationMircosecondsPerInvocation="12208"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="232" invocations="156" avgMicrosecondsPerInvocation="1490" maxMicrosecondsPerInvocation="59650" standardDeviationMircosecondsPerInvocation="6494"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="231" invocations="75" avgMicrosecondsPerInvocation="3082" maxMicrosecondsPerInvocation="55878" standardDeviationMircosecondsPerInvocation="8531"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="223" invocations="72" avgMicrosecondsPerInvocation="3107" maxMicrosecondsPerInvocation="40562" standardDeviationMircosecondsPerInvocation="7249"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="181" invocations="72" avgMicrosecondsPerInvocation="2519" maxMicrosecondsPerInvocation="64521" standardDeviationMircosecondsPerInvocation="7986"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="178" invocations="72" avgMicrosecondsPerInvocation="2485" maxMicrosecondsPerInvocation="29575" standardDeviationMircosecondsPerInvocation="5034"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="177" invocations="40" avgMicrosecondsPerInvocation="4442" maxMicrosecondsPerInvocation="25368" standardDeviationMircosecondsPerInvocation="6610"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="143" invocations="72" avgMicrosecondsPerInvocation="1990" maxMicrosecondsPerInvocation="23139" standardDeviationMircosecondsPerInvocation="4129"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="140" invocations="40" avgMicrosecondsPerInvocation="3503" maxMicrosecondsPerInvocation="62343" standardDeviationMircosecondsPerInvocation="11107"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="139" invocations="40" avgMicrosecondsPerInvocation="3479" maxMicrosecondsPerInvocation="40493" standardDeviationMircosecondsPerInvocation="8200"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="139" invocations="48" avgMicrosecondsPerInvocation="2898" maxMicrosecondsPerInvocation="63927" standardDeviationMircosecondsPerInvocation="9497"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

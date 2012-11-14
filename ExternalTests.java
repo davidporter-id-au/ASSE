@@ -15,11 +15,80 @@ public class ExternalTests
               
     }
     
+    public static void main (String [] args)
+    {
+        System.out.println("Smart Meter - test suite\n");
+        System.out.println("Test suite 1:");
+        
+        functionalityTest();
+        
+        System.out.println("Test Suite 2:");
+        commandSignatureTest();
+        
+        
+    }
     
     
     
     /**
-     * signatureTest
+     * functionaility test
+     * Should create a server undergo a set of normal tests
+     */
+    public static void functionalityTest()
+    {
+        boolean pass = true;
+        
+        CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
+        CommandAction cGetForecast = new CommandAction("forecast", "vendor", new Date());
+        CommandAction cGetUsage = new CommandAction("usage", "vendor", new Date());
+        CommandAction cClear = new CommandAction("clear", "vendor", new Date());
+
+        Command update = new Command(cUpdate, "###Secret KEY###");
+        Command forecast = new Command(cGetForecast, "###Secret KEY###");
+        Command usage = new Command(cGetUsage, "###Secret KEY###");
+        Command clear = new Command(cClear, "###Secret KEY###");
+        
+        Stack commands = new Stack();
+        
+        commands.add(update);
+        commands.add(forecast);
+        commands.add(usage);
+        commands.add(clear);
+        
+        // all commands have been created, are valid and should be executed. 
+        
+        
+        ServerSocket s = new ServerSocket();
+        s.setStack(commands); //give the server the commands
+        
+        
+        Engine e = new Engine(s);
+
+        e.command();//execute
+        
+        
+        /*      TEST 1.1 - Test of basic command execution
+        */
+
+        System.out.println("Test 1.1: " + (e.numberCommandsDebug() == 4));
+        
+        /*      Test 1.2 - Test of correct handling of price information
+        */
+        System.out.println("Test 1.2: " + (e.getPrice() == 10));
+        
+        /*      Test 1.3 - Test of correct handling of quantity and usage information
+        */
+        System.out.println("Test 1.3: " + (e.netUsage() == 15000));
+        
+        examineSM(e);
+        
+        
+        pass = pass && e.numberCommandsDebug() == 4; //Test suite result
+            
+    }
+    
+    /**
+     * commandSignatureTest
      * The purpose of the the test is to determine if the Smart meter will correctly
      * handle being given a number of commands with invalid signatures. 
      * 
@@ -27,33 +96,60 @@ public class ExternalTests
      * 
      * All data should remain as initially declared, at default values. 
      */
-    public void signatureTest()
+    public static void commandSignatureTest()
     {
-        String screen = "\nsignatureTest \nThe purpose of the the test is to determine if the Smart meter will correctly";
-        screen = screen + "\nhandle being given a number of commands with invalid signatures.";
-        screen = screen + "\n \nExpected output: Failure to execute all hostile commands. \n\n";
+        CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
+        CommandAction cGetForecast = new CommandAction("forecast", "vendor", new Date());
+        CommandAction cGetUsage = new CommandAction("usage", "vendor", new Date());
+        CommandAction cClear = new CommandAction("clear", "vendor", new Date());
+
+        Command update = new Command(cUpdate, "invalidKey");
+        Command forecast = new Command(cGetForecast, "invalidKey");
+        Command usage = new Command(cGetUsage, "invalidKey");
+        Command clear = new Command(cClear, "invalidKey");
         
-        System.out.println(screen);
-        System.out.println("Start normal server\n");
+        Stack commands = new Stack();
         
-        ServerSocket normalServer = new ServerSocket();
-        ServerSocket hostileServer = new ServerSocket();
+        commands.add(update);
+        commands.add(forecast);
+        commands.add(usage);
+        commands.add(clear);
         
-        normalServer.validCommands(); //Engage a sequence of valid commands
-        hostileServer.testSignature(); //Engage a series of hostile and invalid commands
+        // all commands have been created, are valid and should be executed. 
         
-        Engine engine = new Engine(normalServer); //Start up a new instance of the smartmeter for testing 
-        //and with default values
+        
+        ServerSocket s = new ServerSocket();
+        s.setStack(commands); //give the server the commands
+
+//         String screen = "\nsignature Test Suite \nThe purpose of the the test is to determine if the Smart meter will correctly";
+//         screen = screen + "\nhandle being given a number of commands with invalid signatures.";
+//         screen = screen + "\n \nExpected output: Failure to execute all hostile commands. \n\n";
+//         
+//         System.out.println(screen);
+//         System.out.println("Start normal server\n");
+//         
+//         ServerSocket normalServer = new ServerSocket();
+//         ServerSocket hostileServer = new ServerSocket();
+//         
+//         //normalServer.validCommands(); //Engage a sequence of valid commands
+//         //hostileServer.testSignature(); //Engage a series of hostile and invalid commands
+
+        System.out.println("\nStart hostile server\n");
+        
+        Engine engine = new Engine(s); //Start up a new instance of the smartmeter for testing 
+     
         
         engine.command();//execute commands
+      
         
-        
-        examineSM(engine); //examine and display information
-        
-        System.out.println("\nStart hostile server\n");
-        engine.setServer(hostileServer);
+
+        engine.setServer(s);
         engine.command(); //attempt to execute
-        examineSM(engine);//examine
+        
+        System.out.println("Results for tests 2.1, 2.2, 2.3, 2.4:" + (engine.numberCommandsDebug() == 0));
+        
+        
+        //examineSM(engine);//examine
         
     }
     
@@ -63,7 +159,7 @@ public class ExternalTests
      * 
      * Oracle: No methods or variables should be allowed at compile-time. 
      */
-    public void Test3_PrivateMethodsAndVariables()
+    public static void Test3_PrivateMethodsAndVariables()
     {
         
        //none of the following should be allowed:
@@ -162,7 +258,7 @@ public class ExternalTests
      * 
      * Oracle: Smart Meter shows valid usage data after being recreated.
      */
-    public void test_dataRetention()
+    public static void test_dataRetention()
     {   
         System.out.println("Data Retention Test");
         System.out.println("A test determined to see if the smart meter will handle loss of power");
@@ -195,7 +291,7 @@ public class ExternalTests
      * Price changes should be effected to the SmartMeter. Price should remain at 10, 100.
      * 
      */
-    public void test_priceSignature()
+    public static void test_priceSignature()
     {
         System.out.println("Price Signature test");
         System.out.println("A test to determine the correctness of the price signature/key handling mechanism.");
@@ -246,7 +342,7 @@ public class ExternalTests
      * Oracle: Date should not be affected from the original. Price should
      * remain at 10, 100. 
      */
-    public void test_priceDateCheck()
+    public static void test_priceDateCheck()
     {
         System.out.println("Price Date Check Test:");
         System.out.println("Tests the date checking feature of the price update process. Designed");
@@ -305,7 +401,7 @@ public class ExternalTests
      * 
      * Oracle: All data should indicate that encryption 'has' (in a simulated sense) occured. 
      */
-    public void testSendEnc()
+    public static void testSendEnc()
     {
         System.out.println("Send Encryption Test");
         System.out.println("A method which observes all data received by the server to demonstrate if it has been ");
@@ -331,12 +427,12 @@ public class ExternalTests
      * Displays internal information of the smartmeter through the debug interface
      * @param verbose determines whether to show additional information
      */
-    private void examineSM(Engine e, boolean verbose)
+    private static void examineSM(Engine e, boolean verbose)
     {
         System.out.println(e.smDebug(verbose));
     }
     
-    private void examineSM(Engine e)
+    private static void examineSM(Engine e)
     {
         examineSM(e, false);
     }
@@ -346,7 +442,7 @@ public class ExternalTests
      * Takes a 'Server' set of output and displays it on screen. 
 
      */
-    private void examineServer(ServerSocket server)
+    private static void examineServer(ServerSocket server)
     {        
         Stack s = server.receivedData; //get stack directly from the server
         

@@ -1,8 +1,16 @@
 #BlueJ class context
 comment0.params=e
-comment0.target=double\ getPrice(SmartMeter.Engine)
-comment0.text=\n\ getPrice\n\ Returns\ a\ validated\ current\ price\ of\ electricity.\ \n\ Returns\ negative\ 1\ if\ invalid\ signature.\ \n
+comment0.target=ClientInterface(SmartMeter.Engine)
 comment1.params=
-comment1.target=SmartMeter.UsageBlock[]\ forecast()
-comment1.text=\n\ forecast\n\ Creates\ an\ array\ of\ UsageBlocks\ as\ a\ simple\ means\ to\ forecast\ future\ useage\n\ and\ returns\ them.\ Intended\ to\ represent\ the\ forecasted\ electricity\ usage\ over\ \n\ periods\ by\ applications\ as\ they\ register\ themselves\ with\ the\ meter.\ \n
-numComments=2
+comment1.target=double\ getPrice()
+comment1.text=\n\ getPrice\n\ Returns\ a\ validated\ current\ price\ of\ electricity.\ \n\ Returns\ negative\ 1\ if\ invalid\ signature.\ \n
+comment2.params=
+comment2.target=SmartMeter.UsageBlock[]\ forecast()
+comment2.text=\n\ forecast\n\ Creates\ an\ array\ of\ UsageBlocks\ as\ a\ simple\ means\ to\ forecast\ future\ useage\n\ and\ returns\ them.\ Intended\ to\ represent\ the\ forecasted\ electricity\ usage\ over\ \n\ periods\ by\ applications\ as\ they\ register\ themselves\ with\ the\ meter.\ \n\ \n\ For\ testing\ purposes\ here\ it\ will\ always\ use\ a\ quantity\ of\ 100.\ \n
+comment3.params=
+comment3.target=double\ getNetUsage()
+comment3.text=\n\ getNetUsage\n\ A\ method\ which\ allows\ for\ the\ summation\ of\ billing\ information\ for\ the\ client\n\ per\ given\ billing\ period.\ \n
+comment4.params=
+comment4.target=double\ getFeedInPrice()
+comment4.text=\n\ getFeedInPrice\n\ Returns\ the\ 'feed\ in'\ price,\ or\ the\ price\ at\ which\ electricity\ is\ sold\ on\ to\ the\ \n\ Grid.\ \n
+numComments=5
