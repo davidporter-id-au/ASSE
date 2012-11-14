@@ -17,14 +17,33 @@ public class ExternalTests
     
     public static void main (String [] args)
     {
+        
+        
         System.out.println("Smart Meter - test suite\n");
         System.out.println("Test suite 1:");
         
+        
+        
         functionalityTest();
         
+        
         System.out.println("Test Suite 2:");
+        
         commandSignatureTest();
         
+        
+        
+        test_replayAttacks();
+        
+        
+        test_dataRetention();
+        
+        
+        test_priceSignature();
+        
+        System.out.println("Manual Tests: \n\n");
+        
+        testSendEnc();
         
     }
     
@@ -34,7 +53,7 @@ public class ExternalTests
      * functionaility test
      * Should create a server undergo a set of normal tests
      */
-    public static void functionalityTest()
+    public static boolean functionalityTest()
     {
         boolean pass = true;
         
@@ -70,21 +89,28 @@ public class ExternalTests
         /*      TEST 1.1 - Test of basic command execution
         */
 
-        System.out.println("Test 1.1: " + (e.numberCommandsDebug() == 4));
+        System.out.println("Test 1.1: Pass? " + (e.numberCommandsDebug() == 4));
         
         /*      Test 1.2 - Test of correct handling of price information
         */
-        System.out.println("Test 1.2: " + (e.getPrice() == 10));
+        System.out.println("Test 1.2: Pass? " + (e.getPrice() == 10));
         
         /*      Test 1.3 - Test of correct handling of quantity and usage information
         */
-        System.out.println("Test 1.3: " + (e.netUsage() == 15000));
+        System.out.println("Test 1.3: Pass? " + (e.netUsage() == 15000));
         
         examineSM(e);
         
         
         pass = pass && e.numberCommandsDebug() == 4; //Test suite result
-            
+        
+        
+        //further extension in functionality testing if required
+        
+        
+        System.out.println("All tests pass? " + pass);
+        return pass;
+        
     }
     
     /**
@@ -96,7 +122,7 @@ public class ExternalTests
      * 
      * All data should remain as initially declared, at default values. 
      */
-    public static void commandSignatureTest()
+    public static boolean commandSignatureTest()
     {
         CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
         CommandAction cGetForecast = new CommandAction("forecast", "vendor", new Date());
@@ -121,18 +147,7 @@ public class ExternalTests
         ServerSocket s = new ServerSocket();
         s.setStack(commands); //give the server the commands
 
-//         String screen = "\nsignature Test Suite \nThe purpose of the the test is to determine if the Smart meter will correctly";
-//         screen = screen + "\nhandle being given a number of commands with invalid signatures.";
-//         screen = screen + "\n \nExpected output: Failure to execute all hostile commands. \n\n";
-//         
-//         System.out.println(screen);
-//         System.out.println("Start normal server\n");
-//         
-//         ServerSocket normalServer = new ServerSocket();
-//         ServerSocket hostileServer = new ServerSocket();
-//         
-//         //normalServer.validCommands(); //Engage a sequence of valid commands
-//         //hostileServer.testSignature(); //Engage a series of hostile and invalid commands
+
 
         System.out.println("\nStart hostile server\n");
         
@@ -146,10 +161,24 @@ public class ExternalTests
         engine.setServer(s);
         engine.command(); //attempt to execute
         
-        System.out.println("Results for tests 2.1, 2.2, 2.3, 2.4:" + (engine.numberCommandsDebug() == 0));
+        System.out.println("\nResults for tests 2.1, 2.2, 2.3, 2.4:");
         
+        if(engine.numberCommandsDebug() == 0)
+        {
         
-        //examineSM(engine);//examine
+            System.out.println("\nPassed Tests");
+            return true;
+        }
+        else 
+        {
+            System.out.println("\nTests Failed");
+            
+            examineSM(engine); //examine results
+            
+            return false;
+        }
+        
+
         
     }
     
@@ -164,7 +193,9 @@ public class ExternalTests
         
        //none of the following should be allowed:
         
+       ServerSocket s = new ServerSocket();
        
+       Engine engine = new Engine(s);
 //             engine.currentPrice = null; //the present price being used. 
 //             engine.currentUse = null;// the current usage block. 
 //             engine.currentProduction = null; //the current production block
@@ -205,16 +236,16 @@ public class ExternalTests
      * Oracle: Should be no change in system variables as the (simulated) date stamp
      * should fail to authenticate on the second set of commands. 
      */
-    public void test_replayAttacks()
+    public static void test_replayAttacks()
     {
         String screen = "replayAttackTest\n";
-            screen = screen +  "Provides a set of commands to the smartmeter which are signed correctly,\n";
-            screen = screen +  "but have invalid dates. This is a typical scenario when \n";
-            screen = screen +  "a hostile actor has captured valid commands and resends them to the\n ";
-            screen = screen +  "application later. \n";
-              
-            screen = screen +  "\nOracle: Should be no change in system variables as the (simulated) date stamp";
-            screen = screen +  "should fail to authenticate on the second set of commands. \n";
+        screen = screen +  "Provides a set of commands to the smartmeter which are signed correctly,\n";
+        screen = screen +  "but have invalid dates. This is a typical scenario when \n";
+        screen = screen +  "a hostile actor has captured valid commands and resends them to the\n ";
+        screen = screen +  "application later. \n";
+          
+        screen = screen +  "\nOracle: Should be no change in system variables as the (simulated) date stamp";
+        screen = screen +  "should fail to authenticate on the second set of commands. \n";
         
         System.out.println(screen);
             
@@ -238,7 +269,7 @@ public class ExternalTests
 
         e.command();
         
-        examineSM(e);
+        //examineSM(e);
         
         System.out.println("Hostile Server");
         
@@ -247,7 +278,7 @@ public class ExternalTests
         
         e.command();
         
-        examineSM(e); //output variables after change
+        //examineSM(e); //output variables after change
         
     }
     
@@ -258,13 +289,12 @@ public class ExternalTests
      * 
      * Oracle: Smart Meter shows valid usage data after being recreated.
      */
-    public static void test_dataRetention()
+    public static boolean test_dataRetention()
     {   
         System.out.println("Data Retention Test");
         System.out.println("A test determined to see if the smart meter will handle loss of power");
         
-        System.out.println("Oracle: Smart Meter shows valid usage data after being recreated.");
-        
+        System.out.println("Oracle: Smart Meter shows valid usage data after being recreated.");        
         
         ServerSocket s = new ServerSocket();
         s.validCommands();
@@ -277,7 +307,21 @@ public class ExternalTests
         
         e = new Engine(s); //and reload
         
-        examineSM(e, true);
+        //The meter should show that the is a quantity of use after being restarted. 
+        if(e.netUsage() > 0)
+        {
+        
+            System.out.println("\nPassed Test");
+            return true;
+        }
+        else 
+        {
+            System.out.println("\nTest Failed");
+            
+            examineSM(e); //examine results
+            
+            return false;
+        }
         
     }
     
@@ -288,10 +332,9 @@ public class ExternalTests
      * mechanism.
      * 
      * Oracle: No commands should be processed from the hostile server. No 
-     * Price changes should be effected to the SmartMeter. Price should remain at 10, 100.
-     * 
+     * Price changes should be effected to the SmartMeter. Price should remain at 10, 100
      */
-    public static void test_priceSignature()
+    public static boolean test_priceSignature()
     {
         System.out.println("Price Signature test");
         System.out.println("A test to determine the correctness of the price signature/key handling mechanism.");
@@ -320,7 +363,7 @@ public class ExternalTests
        
         e.command(); //execute initial, correct command
         
-        examineSM(e); //examine results
+        //examineSM(e); //examine results
         
         System.out.println("\nHostile Price changes: ");
         
@@ -329,7 +372,23 @@ public class ExternalTests
         s.addCommand(updatePrice);
         
         e.command(); //execute update on invalid price
-        examineSM(e); //examine results
+        //examineSM(e); //examine results
+        
+        if(e.getPrice()==10)
+        {
+        
+            System.out.println("\nPassed Test");
+            return true;
+        }
+        else 
+        {
+            System.out.println("\nTest Failed");
+            
+            examineSM(e); //examine results
+            
+            return false;
+        }
+        
         
     }
     
@@ -342,7 +401,7 @@ public class ExternalTests
      * Oracle: Date should not be affected from the original. Price should
      * remain at 10, 100. 
      */
-    public static void test_priceDateCheck()
+    public static boolean test_priceDateCheck()
     {
         System.out.println("Price Date Check Test:");
         System.out.println("Tests the date checking feature of the price update process. Designed");
@@ -380,7 +439,7 @@ public class ExternalTests
        
         e.command(); //execute initial, correct command
  
-        examineSM(e); //examine results
+        //examineSM(e); //examine results
         
         
         //Now test invalid date in price
@@ -388,8 +447,21 @@ public class ExternalTests
         s.addCommand(updatePrice);
         
         e.command(); //execute update on invalid price
-        examineSM(e); //examine results
         
+        if(e.getPrice()==10)
+        {
+        
+            System.out.println("\nPassed Test");
+            return true;
+        }
+        else 
+        {
+            System.out.println("\nTest Failed");
+            
+            examineSM(e); //examine results
+            
+            return false;
+        }
     } 
     
     /**
