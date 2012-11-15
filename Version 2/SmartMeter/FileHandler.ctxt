@@ -1,2 +1,23 @@
 #BlueJ class context
-numComments=0
+comment0.params=id\ providerKey
+comment0.target=FileHandler(java.lang.String,\ java.lang.String)
+comment0.text=\n\ Constructor\n\ @param\ id\ The\ id\ of\ the\ smart\ meter,\ used\ to\ avoid\ file\ collisions\ and\ identify\ the\ meter\n\ @param\ providerKey\ The\ 'public'\ key\ of\ the\ provider,\ used\ to\ send\ to\ the\ provider.\ \n
+comment1.params=ProviderKey
+comment1.target=void\ initialise(java.lang.String)
+comment1.text=\n\ initialise\n\ Sets\ up\ the\ files\n\ \n\ @throws\ IOException\n
+comment2.params=
+comment2.target=java.lang.String\ getProviderKey()
+comment2.text=\n\ getProviderKey\n\ Reads\ the\ provider\ key,\ the\ public\ key\ used\ to\ send\ to\ the\ provider\ and\ returns\ \n\ it.\ \n
+comment3.params=
+comment3.target=java.lang.String\ getPublicKey()
+comment3.text=\n\ getPublicKey\n\ Reads\ the\ public\ key\ of\ the\ smart\ meter,\ used\ to\ send\ to\ the\ provider\ and\ returns\ \n\ it.\ \n
+comment4.params=
+comment4.target=java.lang.String\ getPrivateKey()
+comment4.text=\n\ getPrivateKey\n\ Reads\ the\ private\ key\ of\ the\ smart\ meter\ and\ returns\ it.\n
+comment5.params=in
+comment5.target=java.lang.String\ readIn(java.io.File)
+comment5.text=\n\ readIn\n\ Reads\ a\ file\ in\ and\ returns\ the\ contents\ as\ an\ unbroken\ String\n
+comment6.params=f\ stream
+comment6.target=void\ writeOut(java.io.File,\ java.lang.String)
+comment6.text=\n\ writeOut\n\ writes\ out\ the\ specified\ stream\ to\ a\ given\ file.\ Simulated\ here\ as\ a\ String.\ \n
+numComments=7

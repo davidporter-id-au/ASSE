@@ -15,10 +15,39 @@ public class Crypto
         
     }
     
+    /**
+     * genPublicKey
+     * A demonstrative public key. 
+     */
     public static String genPublicKey()
     {
         //Use cryptographic generation algorithm here:
         
-        return "key: " + Math.random();
+        return "Public key: " + Math.random();
     }
+    
+    
+    /**
+     * genPrivateKey
+     * A demonstrative public key. 
+     */
+    public static String genPrivateKey()
+    {
+        //Use cryptographic generation algorithm here:
+        
+        return "Public key: " + Math.random();
+    }
+    
+    
+    /**
+     * genSymmetricKey
+     * A demonstration method for the symmetric key. 
+     */
+    public static String genSymmetricKey()
+    {
+        //Use cryptographic generation algorithm here:
+        
+        return "Symmetric key: " + Math.random();
+    }
+    
 }

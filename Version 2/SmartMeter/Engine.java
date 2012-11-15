@@ -2,6 +2,7 @@ package SmartMeter;
 import Server.*;
 import java.util.*;
 import Client.*;
+import java.io.*;
 /**
  * Engine
  * The main controller class, the class which is responsible for instansiation and control
@@ -33,7 +34,14 @@ public class Engine
     private  final String VENDOR = "vendor"; //The specific vendor for which this device
     private  SensorInput sensor; //the input from the electrical physical reader, indicating usage
     private  UsageBlock[] forecast; //the forecast amount of usage as is provided by appliances
-    private  final String cryptoKey = "###Secret KEY###"; //The crypto key. 
+    
+    private String cryptoKey; //The Provider's public key
+    private String meterPublicKey; //The smart meter's public key
+    private String meterPrivateKey; //The smart meter's private key
+    
+    private FileHandler fileHandler; //The file handler
+    
+    private final String id = "12345"; //A hard-coded unique identifier constant, equivalent of something simar to MAC address
     
     /*=============Debug information ==================*/
     private int commandExec_Debug; //A debug variable used to demonstrate the number of command executions that have occured. 
@@ -44,9 +52,9 @@ public class Engine
      * debugConstructor
      * creates an engine which operates with the option to flag verbose mode on.
      */
-    public Engine(ServerSocket s, boolean v)
+    public Engine(ServerSocket s, String providerKey, boolean v)
     {
-        this(s);
+        this(s, providerKey);
         verbose = v;
     }
     
@@ -56,9 +64,19 @@ public class Engine
      * @param s The server which the engine will be interacting with.
      * @param c The clinet interface with which the Smart Meter Engine will be interacting with. 
      */
-    public Engine(ServerSocket s)
+    public Engine(ServerSocket s, String providerKey)
     {
        // System.out.println("\nSystem Loading");
+        
+        try
+        {
+            fileHandler = new FileHandler(id, providerKey);
+        }
+        catch(IOException e)
+        {
+            System.out.println("IO Error");
+        }
+        
         
         setServer(s);
         setClient(this);
@@ -73,11 +91,32 @@ public class Engine
         
         sensorInput();//simulate some use
         
+        
+        
+        
+        
         //Debug
         commandExec_Debug = 0;
         
         //End debug
         
+    }
+    
+    /**
+     * setupKeys
+     * Sets the keys. 
+     */
+    private void setupKeys(String providerKey)
+    {
+        try
+        {
+            meterPublicKey = fileHandler.getPrivateKey();
+            meterPublicKey = fileHandler.getPublicKey();
+        }
+        catch(IOException e)
+        {
+            System.out.println("File error");
+        }
     }
     
     /**
