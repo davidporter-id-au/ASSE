@@ -8,6 +8,6 @@ public class InvalidSignature extends Exception
 {
     public InvalidSignature(String s)
     {
-         System.out.println(s);
+         System.out.print(s);
     }
 }

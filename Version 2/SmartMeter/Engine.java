@@ -38,6 +38,17 @@ public class Engine
     /*=============Debug information ==================*/
     private int commandExec_Debug; //A debug variable used to demonstrate the number of command executions that have occured. 
     
+    private boolean verbose = false;
+    
+    /**
+     * debugConstructor
+     * creates an engine which operates with the option to flag verbose mode on.
+     */
+    public Engine(ServerSocket s, boolean v)
+    {
+        this(s);
+        verbose = v;
+    }
     
     /**
      * Constructor
@@ -90,7 +101,8 @@ public class Engine
                     if(c.getAction().equals("update"))
                     {
                         //update prices method call
-                        //System.out.println("update");
+                        if(verbose)
+                            System.out.println("update");
                         update(); //pass command specifics to method
                     }
                     else if (c.getAction().equals("forecast"))
@@ -114,7 +126,7 @@ public class Engine
                 }
                  else //invalid time frame specified. 
                 {
-                    System.out.println("Invalid timeframe for command");
+                   // System.out.println("Invalid timeframe for command");
                 }
             }
             catch (InvalidSignature e)
@@ -134,7 +146,11 @@ public class Engine
     protected void verifyCommandSignature(Command c) throws InvalidSignature
     {
         if (!c.getSig().equals(cryptoKey))
-            throw new InvalidSignature("Invalid Signature, command not executed");
+        {
+            if(verbose)
+                throw new InvalidSignature("Invalid Signature, command not executed");
+            else throw new InvalidSignature("");
+        }
     }
     
     /**
@@ -206,13 +222,6 @@ public class Engine
     {
         Object [] send = new Object [3]; //create a bundle of the items to send
         
-//         send[0] = "Production and consumption of electricity ";
-//         
-//         //Add usage
-//         send[1] = usage;
-//         
-//         //add production
-//         send[2] = production; 
         
         sender(usage); //Send the usage and production data
         sender(production);
@@ -263,7 +272,8 @@ public class Engine
             return currentPrice.getPrice();
         else
         {
-            System.out.println("Signature error - Price update not performed");
+            if(verbose)
+                System.out.println("Signature error - Price update not performed");
             return -1 ;
         }
     }
@@ -292,11 +302,13 @@ public class Engine
        if (p.getKey().equals(cryptoKey))
        {
            setCurrentPrice(p);
-          // System.out.println("Price updated to " + currentPrice.getPrice()); 
+           if(verbose)
+                System.out.println("Price updated to " + currentPrice.getPrice()); 
         }
        else 
        {
-            System.out.println("Price signature invalid, price not updated");
+           if(verbose)
+                System.out.println("Price signature invalid, price not updated");
        }
     }
     
@@ -306,12 +318,14 @@ public class Engine
      */
     public  void updateForecast()
     {
-     //   System.out.println("Updating forcast...");
+        if(verbose)
+            System.out.println("Updating forcast...");
         forecast = client.forecast();
         
         for(int i=0; i<forecast.length; i++)
         {
-          //  System.out.println("Block " + i +": " +forecast[i].getQty());
+            if(verbose)
+                System.out.println("Block " + i +": " +forecast[i].getQty());
             
         }
     }
@@ -326,7 +340,8 @@ public class Engine
     public  void update()
     {
         sensorInput(); //Add usage quatity to simulate passage of time
-        //System.out.println("refreshing price information...");
+        if(verbose)
+            System.out.println("refreshing price information...");
         getCurrentPrice(); //refresh price information. 
         packup(); //packup the old usage block and place it in the log. 
         currentUse = new UsageBlock(currentPrice);//start new block based on new price
@@ -378,8 +393,8 @@ public class Engine
         String sendString = encryptSign(o);
         //send to server through socket
         socket.receiveData(sendString);
-        
-        //System.out.println("Sending to socket: " + sendString);
+        if(verbose)
+            System.out.println("Sending to socket: " + sendString);
     }
     
     /**

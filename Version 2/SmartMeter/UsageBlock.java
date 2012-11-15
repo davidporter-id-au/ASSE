@@ -146,13 +146,7 @@ public class UsageBlock
      */
     public double getValue()
     {
-        try{
-            return price.getPrice() * qty;
-        }
-        catch (InvalidSignature e)
-        {
-            return -1; 
-        }
+        return price.getPrice() * qty;
     }
     
     public String toString()
