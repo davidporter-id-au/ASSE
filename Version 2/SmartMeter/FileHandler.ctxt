@@ -1,8 +1,8 @@
 #BlueJ class context
-comment0.params=id\ providerKey
+comment0.params=identifier\ providerKey
 comment0.target=FileHandler(java.lang.String,\ java.lang.String)
 comment0.text=\n\ Constructor\n\ @param\ id\ The\ id\ of\ the\ smart\ meter,\ used\ to\ avoid\ file\ collisions\ and\ identify\ the\ meter\n\ @param\ providerKey\ The\ 'public'\ key\ of\ the\ provider,\ used\ to\ send\ to\ the\ provider.\ \n
-comment1.params=ProviderKey
+comment1.params=providerKey
 comment1.target=void\ initialise(java.lang.String)
 comment1.text=\n\ initialise\n\ Sets\ up\ the\ files\n\ \n\ @throws\ IOException\n
 comment2.params=

@@ -14,6 +14,9 @@ public class Temp {
         ServerSocket s = new ServerSocket();
         s.validCommands();
         
-        Engine e = new Engine (s, "Provider Key");
+        Engine e = new Engine (s, "Provider Key", true);
+        e.command();
+        System.out.println(e.netUsage());
+        System.out.println(e.smDebug());
     }
 }

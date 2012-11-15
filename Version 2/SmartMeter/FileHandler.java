@@ -9,15 +9,15 @@ public class FileHandler
     private String id; //the ID of the meter, used to generate unique file names. 
     private File publicKey; //The public key used by the Smart MEter. 
     private File privateKey; //The private key used by the smart Meter
-    private File providerKey; //the provider's public key, used to check the veracity of incoming messages
+    private File providerKeyFile; //the provider's public key, used to check the veracity of incoming messages
     
     private File usageData; //The file containin the usage data block
     
     
     /* Constants: Used in file naming convention */
-    private final String PUBLICKEY = "public"; //the filename for the public key of the SM
-    private final String PRIVATEKEY = "private"; //the filename of the private key of the SM
-    private final String PROVIDERKEY= "provider"; //the filename for the provider public key
+    private final String PUBLICKEY = "publicKey"; //the filename for the public key of the SM
+    private final String PRIVATEKEY = "privateKey"; //the filename of the private key of the SM
+    private final String PROVIDERKEY = "providerKey"; //the filename for the provider public key
     
     
     /**
@@ -25,11 +25,10 @@ public class FileHandler
      * @param id The id of the smart meter, used to avoid file collisions and identify the meter
      * @param providerKey The 'public' key of the provider, used to send to the provider. 
      */
-    public FileHandler(String id, String providerKey) throws IOException
+    public FileHandler(String identifier, String providerKey) throws IOException
     {
-        
-        
-        
+        id = identifier;
+        initialise(providerKey);
     }
 
     /**
@@ -38,11 +37,11 @@ public class FileHandler
      * 
      * @throws IOException
      */
-    private void initialise(String ProviderKey) throws IOException
+    private void initialise(String providerKey) throws IOException
     {
         publicKey = new File(PUBLICKEY + id);
         privateKey = new File(PRIVATEKEY + id);
-        providerKey = new File(PROVIDERKEY + id);
+        providerKeyFile = new File(PROVIDERKEY + id);
                  
         if(!publicKey.exists())
             writeOut(publicKey, Crypto.genPublicKey());
@@ -50,8 +49,8 @@ public class FileHandler
         if(!privateKey.exists())
             writeOut(privateKey, Crypto.genPrivateKey());
            
-        if(!providerKey.exists())
-            writeOut(providerKey, ProviderKey);
+        if(!providerKeyFile.exists())
+            writeOut(providerKeyFile, providerKey);
     }
     
     /**
@@ -61,7 +60,7 @@ public class FileHandler
      */
     protected String getProviderKey() throws IOException
     {
-        return readIn(providerKey);
+        return readIn(providerKeyFile);
     }
     
     /**

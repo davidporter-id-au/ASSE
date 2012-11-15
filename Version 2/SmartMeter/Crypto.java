@@ -35,7 +35,7 @@ public class Crypto
     {
         //Use cryptographic generation algorithm here:
         
-        return "Public key: " + Math.random();
+        return "Private key: " + Math.random();
     }
     
     

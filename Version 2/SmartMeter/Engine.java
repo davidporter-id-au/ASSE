@@ -77,6 +77,8 @@ public class Engine
             System.out.println("IO Error");
         }
         
+        setupKeys(providerKey);//get the keys
+        
         
         setServer(s);
         setClient(this);
@@ -110,8 +112,9 @@ public class Engine
     {
         try
         {
-            meterPublicKey = fileHandler.getPrivateKey();
+            meterPrivateKey = fileHandler.getPrivateKey();
             meterPublicKey = fileHandler.getPublicKey();
+            cryptoKey = fileHandler.getProviderKey();
         }
         catch(IOException e)
         {
@@ -187,7 +190,7 @@ public class Engine
         if (!c.getSig().equals(cryptoKey))
         {
             if(verbose)
-                throw new InvalidSignature("Invalid Signature, command not executed");
+                throw new InvalidSignature("\nInvalid Signature, command not executed\n");
             else throw new InvalidSignature("");
         }
     }
