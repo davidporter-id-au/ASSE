@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=
+comment0.target=double\ getPrice()
+comment0.text=\n\ getPrice\n\ Returns\ the\ price\ as\ a\ double.\ \n
+comment1.params=
+comment1.target=java.lang.String\ getVendor()
+comment1.text=\n\ getVendor\n\ Returns\ the\ vendor\ as\ a\ String\n
+comment2.params=
+comment2.target=java.util.Date\ getDate()
+comment2.text=\n\ getDate\n\ Returns\ the\ Date\ the\ price\ data\ is\ valid\ for.\ \n
+numComments=3

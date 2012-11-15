@@ -4,5 +4,5 @@ comment0.target=SensorInput()
 comment0.text=\n\ Constructor\n
 comment1.params=
 comment1.target=double\ issue()
-comment1.text=\n\ issue\n\ Provides\ a\ set\ of\ data\ as\ a\ simulation\ of\ the\ sensor\ input\ coming\ from\ the\ devices\ hardware\n\ meters.\ The\ intention\ is\ that\ this\ amount\ represents\ a\ unit\ measure,\ rather\ than\ a\ \n\ flow\ measure\ as\ one\ might\ expect.\ IE,\ KWH,\ rather\ than\ KW.\ This\ is\ for\ the\ purpose\n\ of\ simplification.\ \n
+comment1.text=\n\ issue\n\ Provides\ a\ set\ of\ data\ as\ a\ simulation\ of\ the\ sensor\ input\ coming\ from\ the\ devices\ hardware\n\ meters.\ The\ intention\ is\ that\ this\ amount\ represents\ a\ unit\ measure,\ rather\ than\ a\ \n\ flow\ measure\ as\ one\ might\ expect.\ IE,\ KWH,\ rather\ than\ KW.\ This\ is\ for\ the\ purpose\n\ of\ simplification.\ \n\ \n\ Here,\ for\ testing\ purposes\ it\ will\ only\ issue\ units\ of\ 150.\n
 numComments=2

@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=SensorInput()
+comment0.text=\n\ Constructor\n
+comment1.params=
+comment1.target=double\ issue()
+comment1.text=\n\ issue\n\ Provides\ a\ set\ of\ data\ as\ a\ simulation\ of\ the\ sensor\ input\ coming\ from\ the\ devices\ hardware\n\ meters.\ The\ intention\ is\ that\ this\ amount\ represents\ a\ unit\ measure,\ rather\ than\ a\ \n\ flow\ measure\ as\ one\ might\ expect.\ IE,\ KWH,\ rather\ than\ KW.\ This\ is\ for\ the\ purpose\n\ of\ simplification.\ \n
+numComments=2

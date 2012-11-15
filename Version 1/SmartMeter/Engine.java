@@ -24,24 +24,36 @@ public class Engine
     private  UsageBlock currentProduction; //the current production block
     private  AbstractList <UsageBlock> usage; //the history of usage as a list of usageBlocks
     private  AbstractList <UsageBlock> production; //the amount of produced power
-    private  ServerSocket socket; //the simulated server socket
+    
+    //Communication objects:
+    private ServerSocket socket; //the simulated server socket
+    private ClientInterface client; //The simulated communication with a client interface. 
+    
     private  final int VALIDTIMEFRAME = 5; //the amount of time a command is active for, in minutes
     private  final String VENDOR = "vendor"; //The specific vendor for which this device
     private  SensorInput sensor; //the input from the electrical physical reader, indicating usage
     private  UsageBlock[] forecast; //the forecast amount of usage as is provided by appliances
     private  final String cryptoKey = "###Secret KEY###"; //The crypto key. 
     
+    /*=============Debug information ==================*/
+    private int commandExec_Debug; //A debug variable used to demonstrate the number of command executions that have occured. 
+    
+    
     /**
      * Constructor
      * Please note that the ability to provide a specified socket here is for testing only.
-     * @param 
+     * @param s The server which the engine will be interacting with.
+     * @param c The clinet interface with which the Smart Meter Engine will be interacting with. 
      */
     public Engine(ServerSocket s)
     {
-        System.out.println("\nSystem Loading");
+       // System.out.println("\nSystem Loading");
+        
+        setServer(s);
+        setClient(this);
         
         clear(); //Use a vector to add all the elements in the usage log. 
-        setServer(s);
+
         getCurrentPrice();
         currentUse = new UsageBlock(currentPrice);//start new block based on new price
         updateForecast();
@@ -49,6 +61,12 @@ public class Engine
         sensor = new SensorInput();
         
         sensorInput();//simulate some use
+        
+        //Debug
+        commandExec_Debug = 0;
+        
+        //End debug
+        
     }
     
     /**
@@ -79,16 +97,19 @@ public class Engine
                     {
                         //System.out.println("forecast");
                         forecast();
+
                     }
                     else if (c.getAction().equals("usage"))
                     {
                         //System.out.println("usage");
                         usage();
+
                     }
                     else if (c.getAction().equals("clear"))
                     {
                         //Clear logs method call
                         clear();
+
                     }
                 }
                  else //invalid time frame specified. 
@@ -173,6 +194,8 @@ public class Engine
     {
        updateForecast();
        sender(forecast);
+       
+       commandExec_Debug++;
     }
     
     /**
@@ -193,6 +216,8 @@ public class Engine
         
         sender(usage); //Send the usage and production data
         sender(production);
+        
+        commandExec_Debug++; //increment execution count
     }
     
     /**
@@ -205,6 +230,8 @@ public class Engine
     {
         setUsage(new Vector());
         setProduction(new Vector());
+        
+        commandExec_Debug++;
     }
     
     /**
@@ -227,19 +254,27 @@ public class Engine
     
     /**
      * getPrice
-     * Provides the present price in decimal form. 
+     * Provides the present use price in decimal form. 
      * Will throw -1 in the event of a problem. 
      */
-    public  double getPrice()
+    public double getPrice()
     {   
         if(currentPrice.getKey().equals(cryptoKey))
             return currentPrice.getPrice();
         else
         {
-            System.out.println("Signature error");
+            System.out.println("Signature error - Price update not performed");
             return -1 ;
         }
     }
+    
+    /**
+     * getFeedInPrice
+     */
+    public double getFeedInPrice()
+    {
+        return currentPrice.getFeedInPrice();
+    }    
     
     /**
      * getCurrentPrice
@@ -257,7 +292,7 @@ public class Engine
        if (p.getKey().equals(cryptoKey))
        {
            setCurrentPrice(p);
-           System.out.println("Price updated to " + currentPrice.getPrice()); 
+          // System.out.println("Price updated to " + currentPrice.getPrice()); 
         }
        else 
        {
@@ -271,8 +306,8 @@ public class Engine
      */
     public  void updateForecast()
     {
-        System.out.println("Updating forcast...");
-        forecast = ClientInterface.forecast();
+     //   System.out.println("Updating forcast...");
+        forecast = client.forecast();
         
         for(int i=0; i<forecast.length; i++)
         {
@@ -296,7 +331,8 @@ public class Engine
         packup(); //packup the old usage block and place it in the log. 
         currentUse = new UsageBlock(currentPrice);//start new block based on new price
         currentProduction = new UsageBlock(currentPrice);
-
+        
+        commandExec_Debug++;
     }
     
     /**
@@ -372,13 +408,14 @@ public class Engine
         
         Calendar cal = Calendar.getInstance(); //Create a calendar object for the window in the past
         
-        cal.setTime(c.getActionTime());
+        cal.setTime(now);
         
         for(int i = 0; i < VALIDTIMEFRAME; i++)
             cal.roll(Calendar.MINUTE, false); //roll back the calendar VALIDTIMEFRAME minutes
         
-        Date validWindow = cal.getTime();    
-            
+        Date validWindow = cal.getTime();   
+        
+        
         if(c.getActionTime().after(validWindow)) //If the action is within VALIDTIMEFRAME minutes 
             return true; //... it is a valid time signature
         else 
@@ -408,6 +445,49 @@ public class Engine
         socket = s;
     }
     
+    /**
+     * setClient
+     * Allows the client interface and interaction to be simulated in a similar manner to that of
+     * the server. The passing of a referece to itself is only a means to establish a demonstrative 
+     * connection. 
+     */
+    public void setClient(Engine e)
+    {
+        client = new ClientInterface(e);
+    }
+    
+    /**
+     * netUsage
+     * A calculation for the client of their total electricity consumption given in dollar figures.
+     * Essentially performs a simple calculation of each usage block that has been created 
+     * multiplied by the price at that block. 
+     */
+    public double netUsage()
+    {
+        double sum = 0; //the running total
+        
+        for(int i=0; i<usage.size(); i++)
+        {
+            sum = sum + (usage.get(i).getQty() * usage.get(i).getPrice().getPrice());
+        }
+        
+        return sum;
+    }
+    
+    /* =================================DEBUG METHODS===================================*/
+    
+        
+    
+    
+    /**
+     * numberCommandsDebug
+     * A simple method which return the number of commands that have executed since the 
+     * creating of the Smart Meter Engine Object. 
+     */
+    public int numberCommandsDebug()
+    {
+        return commandExec_Debug;
+    }
     
     /**
      * smDebug
@@ -426,6 +506,8 @@ public class Engine
         output = output + "Current consumption block: " + currentUse  + "\n";
         output = output + "Current Production block: "+ currentProduction  + "\n";
         output = output + "Key: " + cryptoKey  + "\n";
+        
+        output = output + "\nnet usage: " + netUsage() + "\n";
         
         if(verbose)
         {

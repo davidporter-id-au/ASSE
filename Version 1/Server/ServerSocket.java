@@ -51,13 +51,13 @@ public class ServerSocket
         CommandAction cUpdate = new CommandAction("update", "vendor", d);
         CommandAction cGetForecast = new CommandAction("forecast", "vendor", d);
         CommandAction cGetUsage = new CommandAction("usage", "vendor", d);
-        CommandAction cGetProduction = new CommandAction("production", "vendor", d);
+        CommandAction cClear = new CommandAction("clear", "vendor", d);
         
         //Test a bunch of actions with valid signatures and add them to the stack to dispense for testing purposes later. 
         Command update = new Command(cUpdate, s);
         Command forecast = new Command(cGetForecast, s);
         Command usage = new Command(cGetUsage, s);
-        Command production = new Command(cGetProduction, s);
+        Command clear = new Command(cClear, s);
         
         //Add them to the command stack
         commands.add(update);
@@ -67,7 +67,7 @@ public class ServerSocket
         
         commands.add(forecast);
         commands.add(usage);
-        commands.add(production);
+        commands.add(clear);
     }
     
     /**
@@ -161,6 +161,15 @@ public class ServerSocket
     public void setPrice(Price p)
     {
         price = p;
+    }
+    
+    /**
+     * setStack
+     * allows the setting of the command stack for testing purposes. 
+     */
+    public void setStack(Stack s)
+    {
+        commands = s;
     }
     
     /**
