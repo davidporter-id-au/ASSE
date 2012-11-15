@@ -1,10 +1,11 @@
 package Server;
 import java.util.Date;
+import java.io.Serializable;
 /**
  * PriceSignal
  * a representation of the price of electricity at a given time.
  */
-public class PriceSignal
+public class PriceSignal implements Serializable
 {
 
     private double price; //the price, in kwh. 

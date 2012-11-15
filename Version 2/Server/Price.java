@@ -1,6 +1,7 @@
 package Server;
 import SmartMeter.*;
 import java.util.Date;
+import java.io.*;
 /**
  * Price
  * A signed container containing all relevant price information.
@@ -8,7 +9,7 @@ import java.util.Date;
  * @author David Porter
  * @version 1
  */
-public class Price
+public class Price implements Serializable
 {
     private PriceSignal information;//The price information
     private String key;//The attached signature, verifying authenticity of 

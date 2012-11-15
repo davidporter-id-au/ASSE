@@ -18,7 +18,8 @@ public class FileHandler
     private final String PUBLICKEY = "publicKey"; //the filename for the public key of the SM
     private final String PRIVATEKEY = "privateKey"; //the filename of the private key of the SM
     private final String PROVIDERKEY = "providerKey"; //the filename for the provider public key
-    
+    private final String USAGEDATA = "usage";
+    private final String PRODUCTIONDATA = "production";
     
     /**
      * Constructor
@@ -108,5 +109,72 @@ public class FileHandler
         out.close();
     }
     
+    /**
+     * writeUsage
+     * A specific method for writing usage data to a usage file
+     */
+    protected void writeUsage(AbstractList <UsageBlock> b) throws IOException
+    {
+        FileOutputStream fos =  new FileOutputStream(USAGEDATA + id);
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        
+        out.writeObject(b);
+        out.close();
+    }
+    
+    /**
+     * writeProduction
+     * A specific method for writing energy production data to a usage file
+     */
+    protected void writeProduction(AbstractList <UsageBlock> p) throws IOException
+    {
+        FileOutputStream fos = new FileOutputStream(PRODUCTIONDATA + id);
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+            
+        out.writeObject(p);
+        out.close();
+    }
+    
+    /**
+     * getUsage
+     * gets, if it exists, the existing usage.
+     */
+    protected AbstractList <UsageBlock> getUsage() throws IOException, ClassNotFoundException
+    {
+        File usage = new File(USAGEDATA + id);
+        
+        if(usage.exists())
+        {
+            FileInputStream fis = new FileInputStream(USAGEDATA + id);
+            ObjectInputStream in = new ObjectInputStream (fis);
+            
+            AbstractList <UsageBlock> output = (AbstractList <UsageBlock>) in.readObject();
+            
+            in.close();
+            return output;
+        }
+        else return null;
+    }
+    
+    /**
+     * getProduction
+     * gets, if it exists, the existing production.
+     */
+    protected AbstractList <UsageBlock> getProduction() throws IOException, ClassNotFoundException
+    {
+        File production = new File(PRODUCTIONDATA + id);
+        
+        if(production.exists())
+        {
+            FileInputStream fis = new FileInputStream(PRODUCTIONDATA + id);
+            ObjectInputStream in = new ObjectInputStream (fis);
+            
+            AbstractList <UsageBlock> output = (AbstractList <UsageBlock>) in.readObject();
+            
+            in.close();
+            return output;
+        }
+        else return null;
+    }
 
 }

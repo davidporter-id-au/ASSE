@@ -63,10 +63,10 @@ public class ExternalTests
         CommandAction cGetUsage = new CommandAction("usage", "vendor", new Date());
         CommandAction cClear = new CommandAction("clear", "vendor", new Date());
 
-        Command update = new Command(cUpdate, "###Secret KEY###");
-        Command forecast = new Command(cGetForecast, "###Secret KEY###");
-        Command usage = new Command(cGetUsage, "###Secret KEY###");
-        Command clear = new Command(cClear, "###Secret KEY###");
+        Command update = new Command(cUpdate, "###SecretKEY###");
+        Command forecast = new Command(cGetForecast, "###SecretKEY###");
+        Command usage = new Command(cGetUsage, "###SecretKEY###");
+        Command clear = new Command(cClear, "###SecretKEY###");
         
         Stack commands = new Stack();
         
@@ -82,7 +82,7 @@ public class ExternalTests
         s.setStack(commands); //give the server the commands
         
         
-        Engine e = new Engine(s);
+        Engine e = new Engine(s, "###SecretKEY###");
 
         e.command();//execute
         
@@ -157,7 +157,7 @@ public class ExternalTests
         if(verbose)
             System.out.println("\nStart hostile server\n");
         
-        Engine engine = new Engine(s); //Start up a new instance of the smartmeter for testing 
+        Engine engine = new Engine(s, "###SecretKEY###"); //Start up a new instance of the smartmeter for testing 
      
         
         engine.command();//execute commands
@@ -234,7 +234,7 @@ public class ExternalTests
         hostileServer.testDateValidity(badDate);
         
         //Try adding hostile variables and test effect
-        Engine e = new Engine(hostileServer);
+        Engine e = new Engine(hostileServer, "###SecretKEY###");
         
         e.command();
         
@@ -279,13 +279,13 @@ public class ExternalTests
         ServerSocket s = new ServerSocket();
         s.validCommands();
         
-        Engine e = new Engine(s);
+        Engine e = new Engine(s, "###SecretKEY###");
         
         e.command();
         
         e = null; //remove engine
         
-        e = new Engine(s); //and reload
+        e = new Engine(s, "###SecretKEY###"); //and reload
         
         //The meter should show that the is a quantity of use after being restarted. 
         if(e.netUsage() > 0)
@@ -329,12 +329,12 @@ public class ExternalTests
         PriceSignal priceSignal = new PriceSignal("vendor", 10, 100, new Date());
         PriceSignal invalidPriceSignal = new PriceSignal("vendor", 5, 50, new Date());
         
-        Price validPrice = new Price(priceSignal, "###Secret KEY###"); //Create a valid price with correct key
+        Price validPrice = new Price(priceSignal, "###SecretKEY###"); //Create a valid price with correct key
         Price invalidPrice = new Price (invalidPriceSignal, "Wrong key");
         
         CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
         
-        Command updatePrice = new Command(cUpdate, "###Secret KEY###"); //prepare to send a valid price update command
+        Command updatePrice = new Command(cUpdate, "###SecretKEY###"); //prepare to send a valid price update command
         
         
         //run initial correct price update
@@ -344,7 +344,7 @@ public class ExternalTests
         s.addCommand(updatePrice);
         s.setPrice(validPrice);
         
-        Engine e = new Engine(s);
+        Engine e = new Engine(s, "###SecretKEY###");
        
         e.command(); //execute initial, correct command
         
@@ -413,11 +413,11 @@ public class ExternalTests
         PriceSignal priceSignal = new PriceSignal("vendor", 10, 100, new Date());
         PriceSignal invalidPriceSignal = new PriceSignal("vendor", 5, 50, badDate);
         
-        Price validPrice = new Price(priceSignal, "###Secret KEY###"); //Create a valid price with correct key
-        Price invalidPrice = new Price (invalidPriceSignal, "###Secret KEY###");
+        Price validPrice = new Price(priceSignal, "###SecretKEY###"); //Create a valid price with correct key
+        Price invalidPrice = new Price (invalidPriceSignal, "###SecretKEY###");
         
         CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
-        Command updatePrice = new Command(cUpdate, "###Secret KEY###"); //prepare to send a valid price update command
+        Command updatePrice = new Command(cUpdate, "###SecretKEY###"); //prepare to send a valid price update command
         
         
         //run initial correct price update
@@ -427,7 +427,7 @@ public class ExternalTests
         s.addCommand(updatePrice);
         s.setPrice(validPrice);
         
-        Engine e = new Engine(s);
+        Engine e = new Engine(s, "###SecretKEY###");
        
         e.command(); //execute initial, correct command
  
@@ -480,7 +480,7 @@ public class ExternalTests
         
         s.validCommands();
         
-        Engine e = new Engine(s);
+        Engine e = new Engine(s, "###SecretKEY###");
         
         e.command();//execute commands
         
@@ -502,7 +502,7 @@ public class ExternalTests
         
        ServerSocket s = new ServerSocket();
        
-       Engine engine = new Engine(s);
+       Engine engine = new Engine(s,"###SecretKEY###");
 //             engine.currentPrice = null; //the present price being used. 
 //             engine.currentUse = null;// the current usage block. 
 //             engine.currentProduction = null; //the current production block

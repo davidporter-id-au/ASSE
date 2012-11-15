@@ -29,7 +29,7 @@ public class ServerSocket
         //Wrap up information in a price block. Redundant, but good for testing
         PriceSignal p = new PriceSignal("Vendor", 10, 100, new Date());
         
-        price = new Price (p, "###Secret KEY###"); //wrap up with signature.
+        price = new Price (p, "###SecretKEY###"); //wrap up with signature.
         
     }
     
@@ -88,7 +88,7 @@ public class ServerSocket
      */
     public void testDateValidity(Date d)
     { 
-        testCommand("###Secret KEY###", d); //load valid commands with invalid dates
+        testCommand("###SecretKEY###", d); //load valid commands with invalid dates
         testCommand("invalidKey", d); //load invalid commands with invalid dates
     }
     
@@ -98,7 +98,7 @@ public class ServerSocket
      */
     public void validCommands()
     {
-        testCommand("###Secret KEY###", new Date()); //load valid commands with valid dates
+        testCommand("###SecretKEY###", new Date()); //load valid commands with valid dates
     }
     
     /**

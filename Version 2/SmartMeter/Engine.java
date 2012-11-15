@@ -84,7 +84,11 @@ public class Engine
         setClient(this);
         
         clear(); //Use a vector to add all the elements in the usage log. 
-
+        existingUsage(); //load up the existing data from disk if available. 
+        
+        
+        
+        
         getCurrentPrice();
         currentUse = new UsageBlock(currentPrice);//start new block based on new price
         updateForecast();
@@ -92,10 +96,7 @@ public class Engine
         sensor = new SensorInput();
         
         sensorInput();//simulate some use
-        
-        
-        
-        
+
         
         //Debug
         commandExec_Debug = 0;
@@ -123,10 +124,76 @@ public class Engine
     }
     
     /**
-     * command
-     * The command loop, wait for commands and then execute them
+     * writeUsageData
+     * Writes the present usage data to a file. In a concurrently run system, this would be periodically
+     * updated as required. Here the periodic write is only simulated. 
      */
-    public  void command()
+    private void writeUsageData()
+    {
+        try{
+            fileHandler.writeUsage(usage);
+        }
+        catch(IOException e)
+        {
+            System.out.println("IOException, unable to write out usage");
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    /**
+     * writeProductionData
+     * Writes the present level of production of electricity to a file. Similarly with the above method,
+     * this ought to be run periodically in a concurrent system. 
+     */
+    private void writeProductionData()
+    {
+        try{
+            fileHandler.writeProduction(production);
+        }
+        catch(IOException e)
+        {
+            System.out.println("IOException, unable to write out production");
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
+    /**
+     * existingUsage
+     * Loads up the existing usage with the fileHandler
+     */
+    private void existingUsage()
+    {
+        try
+        {
+            
+            AbstractList <UsageBlock> b = fileHandler.getUsage();
+            
+            if(b != null)
+                usage = b;
+                
+            AbstractList <UsageBlock> p = fileHandler.getProduction();
+            
+            if(p != null)
+                production = p;
+        }
+        catch(IOException e)
+        {
+            System.out.println("IOException");
+        }
+        catch(ClassNotFoundException e)
+        {
+            System.out.println("ClassNotFoundException, data not loaded");
+        }
+        
+    }
+    
+    
+    /**
+     * command
+     * The command loop, wait for commands and then execute them.
+     */
+    public void command()
     {
         Command c = listener();//normally this would be called by some kind of event reception. 
         
@@ -168,7 +235,8 @@ public class Engine
                 }
                  else //invalid time frame specified. 
                 {
-                   // System.out.println("Invalid timeframe for command");
+                    if(verbose)
+                        System.out.println("Invalid timeframe for command");
                 }
             }
             catch (InvalidSignature e)
@@ -178,6 +246,9 @@ public class Engine
             
            
             c = listener();  //get the next command
+            
+            writeUsageData(); //Write out the present usage data at each command iteration, to simulate the progression of data.
+            writeProductionData();
         }
     }
     

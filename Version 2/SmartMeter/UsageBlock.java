@@ -1,12 +1,13 @@
 package SmartMeter;
 import Server.*;    
 import java.util.*;
+import java.io.*;
 /**
  * UsageBlock
  * a class specificing the use of electricity over a period of time at a particular 
  * Price
  */
-public class UsageBlock
+public class UsageBlock implements Serializable
 {
     private double qty; //the quantity of usage over period
     private Date start; //the start of the period at which this was applicable
