@@ -1,6 +1,6 @@
 package SmartMeter;
 import java.util.*;
-/**
+/** 
  * Command
  * A class representing a single action. May be issued by Vendor or 
  * consumer. May be signed or unsigned. 

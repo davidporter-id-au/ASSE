@@ -1,14 +1,17 @@
 #BlueJ class context
-comment0.params=
-comment0.target=java.lang.String\ getAction()
-comment0.text=\n\ getAction\n\ provides\ the\ action\ given\ in\ the\ command\n
+comment0.params=ca\ sig
+comment0.target=Command(CommandAction,\ java.lang.String)
+comment0.text=\n\ Constructor\n\ @param\ ca\ The\ command\ action\ assigned\ to\ the\ command,\ the\ bit\ that\ says\ what\ is\ \n\ going\ to\ be\ executed.\ \n\ @param\ sig\ the\ signature\ or\ hash\ of\ the\ command\ action.\ \n
 comment1.params=
-comment1.target=java.util.Date\ getActionTime()
-comment1.text=\n\ getActionTime\n\ Returns\ the\ date/time\ of\ the\ execution\ to\ be\ carried\ out.\ \n
+comment1.target=java.lang.String\ getAction()
+comment1.text=\n\ getAction\n\ provides\ the\ action\ given\ in\ the\ command\n
 comment2.params=
-comment2.target=java.lang.String\ getVendor()
-comment2.text=\n\ getVendor\n\ Returns\ the\ signed\ vendor\ who\ issued\ the\ command\n
+comment2.target=java.util.Date\ getActionTime()
+comment2.text=\n\ getActionTime\n\ Returns\ the\ date/time\ of\ the\ execution\ to\ be\ carried\ out.\ \n
 comment3.params=
-comment3.target=java.lang.String\ getSig()
-comment3.text=\n\ sigCheck\n\ A\ dummy\ method\ signifying\ the\ check\ of\ the\ command\ action\ as\ being\ \n\ Hashed\ by\ the\ corresponding\ cryptographic\ key.\ \n
-numComments=4
+comment3.target=java.lang.String\ getVendor()
+comment3.text=\n\ getVendor\n\ Returns\ the\ signed\ vendor\ who\ issued\ the\ command\n
+comment4.params=
+comment4.target=java.lang.String\ getSig()
+comment4.text=\n\ sigCheck\n\ A\ dummy\ method\ signifying\ the\ check\ of\ the\ command\ action\ as\ being\ \n\ Hashed\ by\ the\ corresponding\ cryptographic\ key.\ \n
+numComments=5

@@ -2,7 +2,7 @@ package SmartMeter;
 import java.util.*;
 import SmartMeter.*;
 /**
- * Command
+ * Command 
  * A class represenging a signed command from either the provider 
  * or the consumer. Wraps the command in a signiture to enable verification. 
  */

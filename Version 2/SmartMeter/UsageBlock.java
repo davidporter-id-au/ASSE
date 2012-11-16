@@ -12,12 +12,12 @@ public class UsageBlock implements Serializable
     private double qty; //the quantity of usage over period
     private Date start; //the start of the period at which this was applicable
     private Date end; //the end of the period for which this was applicable. 
-    private Price price; //the price at which the usage block is charged
+    private PriceInterface price; //the price at which the usage block is charged
     
     /**
      * Constructor - full
      */
-    protected UsageBlock(Price p, double q, Date sd, Date ed)
+    protected UsageBlock(PriceInterface p, double q, Date sd, Date ed)
     {
         setStartUse(sd);
         setEnd(ed);
@@ -40,7 +40,7 @@ public class UsageBlock implements Serializable
      * Constructor - price only
      * Sets up a new usage block with a price only
      */
-    protected UsageBlock(Price p)
+    protected UsageBlock(PriceInterface p)
     {
         setup(); //set the start time.
         setQty(0);
@@ -80,7 +80,7 @@ public class UsageBlock implements Serializable
      * setPrice
      * Sets the price object
      */
-    private void setPrice(Price p)
+    private void setPrice(PriceInterface p)
     {
         price = p;
     }
@@ -107,7 +107,7 @@ public class UsageBlock implements Serializable
      * getPrice
      * returns the price
      */
-    public Price getPrice()
+    public PriceInterface getPrice()
     {
         return price;
     }

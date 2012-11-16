@@ -20,7 +20,7 @@ import java.io.*;
  */
 public class Engine
 {
-    private  Price currentPrice; //the present price being used. 
+    private  PriceInterface currentPrice; //the present price being used. 
     private  UsageBlock currentUse;// the current usage block. 
     private  UsageBlock currentProduction; //the current production block
     private  AbstractList <UsageBlock> usage; //the history of usage as a list of usageBlocks
@@ -48,6 +48,9 @@ public class Engine
     
     private boolean verbose = false;
     
+    private final String StartMsg = "\nSmart Meter starting up\n Use of this device is governed by applicable laws... \n"; //Display message on startup
+    
+    
     /**
      * debugConstructor
      * creates an engine which operates with the option to flag verbose mode on.
@@ -66,6 +69,7 @@ public class Engine
      */
     public Engine(ServerSocket s, String providerKey)
     {
+        System.out.println(StartMsg);
        // System.out.println("\nSystem Loading");
         
         try
@@ -502,6 +506,7 @@ public class Engine
     private void sender(Object o)
     {   
         String sendString = encryptSign(o);
+        
         //send to server through socket
         socket.receiveData(sendString);
         if(verbose)
@@ -515,7 +520,7 @@ public class Engine
      */
     private String encryptSign(Object o)
     {
-        return "<Start symmetric encryption with " + cryptoKey + "> " + "\nObject being sent:" + o + "<End encryption with " + cryptoKey + ">";
+        return "<Start symmetric encryption with for Smart Meter ID" + id + " with key: " + cryptoKey + "> " + "\nObject being sent:" + o + "<End encryption with " + cryptoKey + ">";
     }
     
     /**

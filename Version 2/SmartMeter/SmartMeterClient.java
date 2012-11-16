@@ -1,4 +1,4 @@
-package Client;
+package SmartMeter;
 /**
  * Write a description of interface SmartMeterClient here.
  * 
@@ -6,7 +6,7 @@ package Client;
  * @version (a version number or a date)
  */
 public interface SmartMeterClient 
-{
+{ 
     
     /**
      * getPrice
