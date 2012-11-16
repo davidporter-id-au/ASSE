@@ -87,8 +87,6 @@ public class Engine
         existingUsage(); //load up the existing data from disk if available. 
         
         
-        
-        
         getCurrentPrice();
         currentUse = new UsageBlock(currentPrice);//start new block based on new price
         updateForecast();
@@ -203,7 +201,7 @@ public class Engine
             try
             {
                 verifyCommandSignature(c); //Check signature of the command.    
-                if(timeCheck(c)) //ensure that the command was issued within a valid time frame. 
+                if(timeCheck(c.getActionTime())) //ensure that the command was issued within a valid time frame. 
                 
                 
                 { //ie, that it is not an old command being replayed by an an attacker. 
@@ -412,7 +410,7 @@ public class Engine
     {   
        Price p = socket.sendPrice(); //Get the present price from the server
        
-       if (p.getKey().equals(cryptoKey))
+       if (p.getKey().equals(cryptoKey) && timeCheck(p.getDate()))
        {
            setCurrentPrice(p);
            if(verbose)
@@ -524,12 +522,8 @@ public class Engine
      * timeCheck
      * a method that checks the timestamp on a signature and will return
      * true if the time is within a VALIDTIMEFRAME. 
-     * 
-     * As of version 1, this is not implemented but merely serves as an example of 
-     * this kind of behaviour. At the present, this will return false as it 
-     * receives an invalid signature. 
      */
-    private  boolean timeCheck(Command c)
+    private  boolean timeCheck(Date d)
     {   
         Date now = new Date();//the time now
         
@@ -544,7 +538,7 @@ public class Engine
         Date validWindow = cal.getTime();   
         
         
-        if(c.getActionTime().after(validWindow)) //If the action is within VALIDTIMEFRAME minutes 
+        if(d.after(validWindow)) //If the action is within VALIDTIMEFRAME minutes 
             return true; //... it is a valid time signature
         else 
             return false;

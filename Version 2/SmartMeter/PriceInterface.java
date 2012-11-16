@@ -29,4 +29,22 @@ public interface PriceInterface
      */
     public Date getDate();
    
+    /**
+     * getFeedInPrice
+     * returns the validated present feed-in price. 
+     */
+    public double getFeedInPrice();
+  
+    /**
+     * getKey
+     * returns the signature 'key'.
+     */
+    public String getKey();
+    
+    /**
+     * toString
+     * Returns a string representation of the price.
+     */
+    public String toString();
+ 
 }

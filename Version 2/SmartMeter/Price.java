@@ -1,4 +1,4 @@
-package Server;
+package SmartMeter;
 import SmartMeter.*;
 import java.util.Date;
 import java.io.*;
@@ -9,7 +9,7 @@ import java.io.*;
  * @author David Porter
  * @version 1
  */
-public class Price implements Serializable
+public class Price implements Serializable, PriceInterface
 {
     private PriceSignal information;//The price information
     private String key;//The attached signature, verifying authenticity of 

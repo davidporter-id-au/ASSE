@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=
+comment0.target=java.lang.String\ getAction()
+comment0.text=\n\ getAction\n\ provides\ the\ action\ given\ in\ the\ command\n
+comment1.params=
+comment1.target=java.util.Date\ getActionTime()
+comment1.text=\n\ getActionTime\n\ Returns\ the\ date/time\ of\ the\ execution\ to\ be\ carried\ out.\ \n
+comment2.params=
+comment2.target=java.lang.String\ getVendor()
+comment2.text=\n\ getVendor\n\ Returns\ the\ signed\ vendor\ who\ issued\ the\ command\n
+comment3.params=
+comment3.target=java.lang.String\ getSig()
+comment3.text=\n\ sigCheck\n\ A\ dummy\ method\ signifying\ the\ check\ of\ the\ command\ action\ as\ being\ \n\ Hashed\ by\ the\ corresponding\ cryptographic\ key.\ \n
+numComments=4

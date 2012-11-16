@@ -1,4 +1,4 @@
-package Server;
+package SmartMeter;
 import java.util.Date;
 import java.io.Serializable;
 /**
