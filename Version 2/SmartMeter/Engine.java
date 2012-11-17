@@ -405,16 +405,20 @@ public class Engine
      * getCurrentPrice
      * Updates the current operational price and set it. 
      * 
-     * Given the demonstrative nature of the class, this is only 
-     * creating the information our of thin air. In reality, 
+     * Given the demonstrative nature of the class, this is only
+     * grabbing the information from another adjacent class. In reality, 
      * it ought to get it through a socket or some kind of 
      * transport medium from the provider. 
+     * 
+     * This is demonstrated here through the use of the server 'socket' which
+     * could be replaced with an actual network interface. 
      */
     private  void getCurrentPrice()
     {   
        Price p = socket.sendPrice(); //Get the present price from the server
        
-       if (p.getKey().equals(cryptoKey) && timeCheck(p.getDate()))
+       //Perform check, see if signature is valid and if timestamp is valid
+       if (p.getKey().equals(cryptoKey) && timeCheck(p.getDate())) 
        {
            setCurrentPrice(p);
            if(verbose)
