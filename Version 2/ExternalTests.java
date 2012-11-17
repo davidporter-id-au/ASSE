@@ -86,6 +86,8 @@ public class ExternalTests
 
         e.command();//execute
         
+        SmartMeterClient sm = e.getClientInterface();
+        
         if(verbose)
         {
             /*      TEST 1.1 - Test of basic command execution
@@ -94,11 +96,11 @@ public class ExternalTests
             
             /*      Test 1.2 - Test of correct handling of price information
             */
-            System.out.println("Test 1.2: Pass? " + (e.getPrice() == 10));
+            System.out.println("Test 1.2: Pass? " + (sm.getPrice() == 10));
             
             /*      Test 1.3 - Test of correct handling of quantity and usage information
             */
-            System.out.println("Test 1.3: Pass? " + (e.netUsage() == 15000));
+            System.out.println("Test 1.3: Pass? " + (sm.netUsage() == 15000));
         }
         
         
@@ -276,8 +278,31 @@ public class ExternalTests
             
             System.out.println("Oracle: Smart Meter shows valid usage data after being recreated.");        
         }
+        
+        
+        
+        CommandAction cUpdate = new CommandAction("update", "vendor", new Date());
+        CommandAction cGetForecast = new CommandAction("forecast", "vendor", new Date());
+        CommandAction cGetUsage = new CommandAction("usage", "vendor", new Date());
+        CommandAction cClear = new CommandAction("clear", "vendor", new Date());
+
+        Command update = new Command(cUpdate, "###SecretKEY###");
+        Command forecast = new Command(cGetForecast, "###SecretKEY###");
+        Command usage = new Command(cGetUsage, "###SecretKEY###");
+
+        
+        Stack commands = new Stack();
+        
+        commands.add(update);
+        commands.add(forecast);
+        commands.add(usage);
+
+        
+        // all commands have been created, are valid and should be executed. 
+        
+        
         ServerSocket s = new ServerSocket();
-        s.validCommands();
+        s.setStack(commands); //give the server the commands
         
         Engine e = new Engine(s, "###SecretKEY###");
         
@@ -287,8 +312,10 @@ public class ExternalTests
         
         e = new Engine(s, "###SecretKEY###"); //and reload
         
+        SmartMeterClient sm = e.getClientInterface();
+        
         //The meter should show that the is a quantity of use after being restarted. 
-        if(e.netUsage() > 0)
+        if(sm.netUsage() > 0)
         {
             if(verbose)
                 System.out.println("\nPassed Test");
@@ -360,7 +387,9 @@ public class ExternalTests
         e.command(); //execute update on invalid price
         //examineSM(e); //examine results
         
-        if(e.getPrice()==10)
+        SmartMeterClient sm = e.getClientInterface();
+        
+        if(sm.getPrice()==10)
         {
             if(verbose)
                 System.out.println("\nPassed Test");
@@ -439,8 +468,9 @@ public class ExternalTests
         s.addCommand(updatePrice);
         
         e.command(); //execute update on invalid price
+        SmartMeterClient sm = e.getClientInterface();
         
-        if(e.getPrice()==10)
+        if(sm.getPrice()==10)
         {
             if(verbose)
                 System.out.println("\nPassed Test");

@@ -1,7 +1,6 @@
 package SmartMeter;
 import Server.*;
 import java.util.*;
-import Client.*;
 import java.io.*;
 /**
  * Engine
@@ -51,15 +50,7 @@ public class Engine
     private final String StartMsg = "\nSmart Meter starting up\n Use of this device is governed by applicable laws... \n"; //Display message on startup
     
     
-    /**
-     * debugConstructor
-     * creates an engine which operates with the option to flag verbose mode on.
-     */
-    public Engine(ServerSocket s, String providerKey, boolean v)
-    {
-        this(s, providerKey);
-        verbose = v;
-    }
+
     
     /**
      * Constructor
@@ -69,8 +60,14 @@ public class Engine
      */
     public Engine(ServerSocket s, String providerKey)
     {
-        System.out.println(StartMsg);
-       // System.out.println("\nSystem Loading");
+        
+        if(verbose)
+        {
+            System.out.println("\nSystem Loading");
+            System.out.println(StartMsg);
+        }
+        
+       //
         
         try
         {
@@ -181,6 +178,7 @@ public class Engine
         }
         catch(IOException e)
         {
+            e.getMessage();
             System.out.println("IOException");
         }
         catch(ClassNotFoundException e)
@@ -194,6 +192,12 @@ public class Engine
     /**
      * command
      * The command loop, wait for commands and then execute them.
+     * 
+     * In reality, this method would be a private thread which would be called
+     * in the event of a notification that a command had been received. In function
+     * it is essentially the same, however, here it must be listed as public for debug 
+     * purposes and it contains a number of demonstrative methods (due to this being a
+     * non-concurrent system). 
      */
     public void command()
     {
@@ -381,7 +385,7 @@ public class Engine
      * Provides the present use price in decimal form. 
      * Will throw -1 in the event of a problem. 
      */
-    public double getPrice()
+    protected double getPrice()
     {   
         if(currentPrice.getKey().equals(cryptoKey))
             return currentPrice.getPrice();
@@ -395,10 +399,18 @@ public class Engine
     
     /**
      * getFeedInPrice
+     * Returns the feed-in price. 
      */
-    public double getFeedInPrice()
+    protected double getFeedInPrice()
     {
-        return currentPrice.getFeedInPrice();
+           if(currentPrice.getKey().equals(cryptoKey))
+            return currentPrice.getFeedInPrice();
+        else
+        {
+            if(verbose)
+                System.out.println("Signature error - Price update not performed");
+            return -1 ;
+        }
     }    
     
     /**
@@ -456,7 +468,7 @@ public class Engine
      * customer. It does require a valid signature, but does 
      * not require vendor appropval
      */
-    public  void update()
+    protected  void update()
     {
         sensorInput(); //Add usage quatity to simulate passage of time
         if(verbose)
@@ -555,45 +567,12 @@ public class Engine
     }
     
     /**
-     * getServer
-     * Returns the 'server socket'. Used for testing purposes. 
-     */
-    public  ServerSocket getServer() 
-    {
-        return socket;
-    }
-    
-    /**
-     * setServer
-     * allows the server 'socket' to be added. This is necessary only for testing and would be removed
-     * in a production system. A production system would probably hardcode a http address. 
-     * 
-     * However, even with this being open, the security consequences are intended to be little because
-     * all server input is considered to be untrusted anyway and will always be verified. 
-     */
-    public void setServer(ServerSocket s)
-    {
-        socket = s;
-    }
-    
-    /**
-     * setClient
-     * Allows the client interface and interaction to be simulated in a similar manner to that of
-     * the server. The passing of a referece to itself is only a means to establish a demonstrative 
-     * connection. 
-     */
-    public void setClient(Engine e)
-    {
-        client = new ClientInterface(e);
-    }
-    
-    /**
      * netUsage
      * A calculation for the client of their total electricity consumption given in dollar figures.
      * Essentially performs a simple calculation of each usage block that has been created 
      * multiplied by the price at that block. 
      */
-    public double netUsage()
+    protected double netUsage()
     {
         double sum = 0; //the running total
         
@@ -605,9 +584,37 @@ public class Engine
         return sum;
     }
     
+    /**
+     * getClientInterface
+     * Returns an interface which the client may interact with. 
+     */
+    public SmartMeterClient getClientInterface()
+    {
+        return new ClientInterface(this);
+    }
+    
+    
     /* =================================DEBUG METHODS===================================*/
     
-        
+    /**
+     * getServer
+     * Returns the 'server socket'. Used for testing purposes. 
+     */
+    public  ServerSocket getServer() 
+    {
+        return socket;
+    }
+    
+    
+    /**
+     * debugConstructor
+     * creates an engine which operates with the option to flag verbose mode on.
+     */
+    public Engine(ServerSocket s, String providerKey, boolean v)
+    {
+        this(s, providerKey);
+        verbose = v;
+    }
     
     
     /**
@@ -682,5 +689,28 @@ public class Engine
         return currentPrice.getPrice();
     }
     
+    /**
+     * setClient
+     * Allows the client interface and interaction to be simulated in a similar manner to that of
+     * the server. The passing of a referece to itself is only a means to establish a demonstrative 
+     * connection. 
+     */
+    public void setClient(Engine e)
+    {
+        client = new ClientInterface(e);
+    }
+    
+    /**
+     * setServer
+     * allows the server 'socket' to be added. This is necessary only for testing and would be removed
+     * in a production system. A production system would probably hardcode a http address. 
+     * 
+     * However, even with this being open, the security consequences are intended to be little because
+     * all server input is considered to be untrusted anyway and will always be verified. 
+     */
+    public void setServer(ServerSocket s)
+    {
+        socket = s;
+    }
     
 }

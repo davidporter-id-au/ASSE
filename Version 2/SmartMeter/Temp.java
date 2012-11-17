@@ -2,7 +2,6 @@ package SmartMeter;
 
 import Server.*;
 import java.util.*;
-import Client.*;
 import java.io.*;
 
 public class Temp {

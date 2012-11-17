@@ -35,7 +35,7 @@ public class Crypto
      * genPrivateKey
      * A demonstrative public key. 
      */
-    public static String genPrivateKey()
+    protected static String genPrivateKey()
     {
         //Use cryptographic generation algorithm here:
         
@@ -47,7 +47,7 @@ public class Crypto
      * genSymmetricKey
      * A demonstration method for the symmetric key. 
      */
-    public static String genSymmetricKey()
+    protected static String genSymmetricKey()
     {
         //Use cryptographic generation algorithm here:
         

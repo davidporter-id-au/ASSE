@@ -1,4 +1,4 @@
-package Client;
+package SmartMeter;
 import SmartMeter.*;
 import Server.*;
 import java.util.*;
@@ -55,9 +55,9 @@ public class ClientInterface  implements SmartMeterClient
      * A method which allows for the summation of billing information for the client
      * per given billing period. 
      */
-    public double getNetUsage()
+    public double netUsage()
     {
-        return 0;
+        return engine.netUsage();
     }
     
     /**
@@ -70,5 +70,21 @@ public class ClientInterface  implements SmartMeterClient
         return engine.getFeedInPrice();
     }
     
+    /**
+     * update
+     * Updates the price in the smart meter
+     */
+    public void update()
+    {
+        engine.update();
+    }
     
+    /**
+     * updateForecast
+     * Forces the smart meter to reappraise the forecast amount
+     */
+    public void updateForecast()
+    {
+        engine.updateForecast();
+    }
 }
